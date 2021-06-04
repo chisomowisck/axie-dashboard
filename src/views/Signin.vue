@@ -5,7 +5,10 @@
         <div class="col-xl-5 col-md-6">
           <div class="mini-logo text-center my-4">
             <router-link to="landing"
-              ><img src="https://khodo.africa/wp-content/uploads/2021/02/Asset-3@3x.png" alt="" style="height:90px; width:auto"
+              ><img
+                src="https://khodo.africa/wp-content/uploads/2021/02/Asset-3@3x.png"
+                alt=""
+                style="height: 90px; width: auto"
             /></router-link>
           </div>
           <div class="auth-form card">
@@ -33,8 +36,8 @@
                       type="email"
                       class="form-control error"
                       placeholder="hello@example.com"
-                      name="email"
-                      v-model="email"
+                      name="mobileOrEmail"
+                      v-model="mobileOrEmail"
                       aria-invalid="true"
                     />
                     <label class="error" for="email">{{ errors[0] }}</label>
@@ -57,6 +60,24 @@
                     />
                     <label class="error" for="password">{{ errors[0] }}</label>
                   </ValidationProvider>
+
+                  <ValidationProvider
+                    v-slot="{ errors }"
+                    name="pin"
+                    class="form-group"
+                    tag="div"
+                  >
+                    <label>PIN</label>
+                    <input
+                      type="number"
+                      class="form-control error"
+                      placeholder="PIN"
+                      name="pin"
+                      v-model="pin"
+                      aria-invalid="true"
+                    />
+                    <label class="error" for="pin">{{ errors[0] }}</label>
+                  </ValidationProvider>
                   <div
                     class="form-row d-flex justify-content-between mt-4 mb-2"
                   >
@@ -72,7 +93,10 @@
                     </div>
                   </div>
                   <div class="text-center">
-                    <button type="submit" class="btn btn-success btn-block">
+                    <button
+                      type="submit"
+                      class="btn btn-success btn-block"
+                    >
                       Sign in
                     </button>
                   </div>
@@ -104,14 +128,70 @@ export default {
   },
   data() {
     return {
-      email: "",
-      password: "",
-      checkbox: "",
+      mobileOrEmail: null,
+      password: null,
+      pin: null,
     };
   },
   methods: {
+    signingIn() {
+      
+    },
+
     formSubmit() {
-      this.$router.push("/otp-1");
+
+
+      this.internet = false;
+      this.dialog = true;
+      this.$store
+        .dispatch("retrieveToken", {
+          mobileOrEmail: this.mobileOrEmail,
+          password: this.password,
+          pin: this.pin
+        })
+        .then((response) => {
+          
+          
+           this.$router.push('/index'); 
+          console.log(response);
+          // if (response.data.status == "success") {
+          //   this.$router.push({ name: "Index" });
+            
+          //   // this.dialog = false;
+          //   // this.overlay = "";
+          //   // alert(response)
+          //   // this.$router.push({ name: "home" });
+          // }
+          // if (response.data.status == "error") {
+          //   this.$router.push({ name: "Index" });
+          //   //  alert(response)
+          //   // this.dialog = false;
+          //   // this.wrongCred = true;
+          //   // this.alertMessage = response.data.message;
+          // }
+        })
+        .catch((error) => {
+          alert(error)
+          // this.dialog = false;
+          // this.internet = true;
+          // this.alertMessage = "No Internet Connection!";
+        });
+
+      // this.$router.push("/otp-1");
+      // this.$axios
+      //   .post("/auth/user/login", {
+      //     mobileOrEmail: this.mobileOrEmail,
+      //     password: this.password,
+      //     pin: this.pin,
+      //   })
+      //   .then(
+      //     function (response) {
+      //       alert(response);
+      //     }.bind(this)
+      //   )
+      //   .catch((error) => {
+      //     alert(error);
+      //   });
     },
   },
 };

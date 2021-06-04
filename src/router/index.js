@@ -32,6 +32,12 @@ import VerifyStep6 from "../views/VerifyStep6";
 Vue.use(VueRouter);
 
 const routes = [
+
+  {
+    path: "/",
+    name: "Landing",
+    component: Landing,
+  },
   {
     path: "/demo",
     name: "Demo",
@@ -132,11 +138,7 @@ const routes = [
     name: "Settings",
     component: Settings,
   },
-  {
-    path: "/",
-    name: "Landing",
-    component: Landing,
-  },
+  
   {
     path: "/about",
     name: "About",

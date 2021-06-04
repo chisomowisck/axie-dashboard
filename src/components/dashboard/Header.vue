@@ -52,9 +52,9 @@
                     <router-link to="lock" class="dropdown-item">
                       <i class="la la-lock"></i> Lock
                     </router-link>
-                    <router-link to="signin" class="dropdown-item logout">
+                    <button v-on:click="logout" to="#" class="dropdown-item logout">
                       <i class="la la-sign-out"></i> Logout
-                    </router-link>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -74,5 +74,13 @@ export default {
       show: false,
     };
   },
+
+  methods: {
+     logout() {
+      this.$store.dispatch("destroyToken");
+      this.$router.push("/signin");
+      //window.location.href = "login"
+    },
+  }
 };
 </script>

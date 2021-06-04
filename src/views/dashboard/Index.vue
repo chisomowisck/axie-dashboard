@@ -99,91 +99,26 @@
                   <div class="card-body">
                     <div class="transaction-widget">
                       <ul class="list-unstyled">
-                        <li class="media">
-                          <span class="sold-thumb"
-                            ><i class="la la-arrow-down"></i
-                          ></span>
-                          <div class="media-body">
-                            <p>
-                              <small>9 November, 2020</small>
-                              <small>15:33</small>
-                            </p>
-                            <p class="wallet-address text-dark">
-                              15f5s8s47bhj61r8w4e77e5e56
-                            </p>
-                          </div>
-                          <div class="text-right">
-                            <h4>0.000242 BTC</h4>
-                          </div>
-                        </li>
-                        <li class="media">
+                        <div v-for="transaction in transactionList" v-bind:key="transaction.id">
+                        <li class="media pb-3">
                           <span class="buy-thumb"
                             ><i class="la la-arrow-up"></i
                           ></span>
                           <div class="media-body">
                             <p>
-                              <small>9 November, 2020</small>
+                              <small>{{transaction.createdAt}}</small>
                               <small>15:33</small>
                             </p>
                             <p class="wallet-address text-dark">
-                              15f5s8s47bhj61r8w4e77e5e56
+                              {{transaction.transactionId}}
                             </p>
                           </div>
                           <div class="text-right">
-                            <h4>0.000242 LTC</h4>
+                            <h4>{{transaction.btcAmount}} BTC</h4>
                           </div>
                         </li>
-                        <li class="media">
-                          <span class="sold-thumb"
-                            ><i class="la la-arrow-down"></i
-                          ></span>
-                          <div class="media-body">
-                            <p>
-                              <small>9 November, 2020</small>
-                              <small>15:33</small>
-                            </p>
-                            <p class="wallet-address text-dark">
-                              15f5s8s47bhj61r8w4e77e5e56
-                            </p>
-                          </div>
-                          <div class="text-right">
-                            <h4>0.000242 XRP</h4>
-                          </div>
-                        </li>
-                        <li class="media">
-                          <span class="buy-thumb"
-                            ><i class="la la-arrow-up"></i
-                          ></span>
-                          <div class="media-body">
-                            <p>
-                              <small>9 November, 2020</small>
-                              <small>15:33</small>
-                            </p>
-                            <p class="wallet-address text-dark">
-                              15f5s8s47bhj61r8w4e77e5e56
-                            </p>
-                          </div>
-                          <div class="text-right">
-                            <h4>0.000242 XRP</h4>
-                          </div>
-                        </li>
-                        <li class="media">
-                          <span class="buy-thumb"
-                            ><i class="la la-arrow-up"></i
-                          ></span>
-                          <div class="media-body">
-                            <p>
-                              <small>9 November, 2020</small>
-                              <small>15:33</small>
-                            </p>
-                            <p class="wallet-address text-dark">
-                              15f5s8s47bhj61r8w4e77e5e56
-                            </p>
-                          </div>
-                          <div class="text-right">
-                            <h4>0.000242 XRP</h4>
-                          </div>
-                        </li>
+                        </div>
+                        
                       </ul>
                     </div>
                   </div>
@@ -209,11 +144,30 @@ export default {
     Layout,
     BtcChart,
     Toster,
+
   },
   data() {
     return {
       active: "all",
+      transactions: [],
+      access_token: localStorage.getItem("access_token"),
     };
+  },
+
+   computed: {
+    transactionList() {
+      return this.transactions;
+    },
+  },
+
+  mounted() {
+     this.$axios
+      .get("/users/me/transactions?type=momo-transfer-sell-bitcoin,wallet-transfer-bitcoin&limit=0", {
+  headers: {
+    'Authorization': 'Bearer '+this.access_token
+  }
+})
+      .then((response) => (this.transactions = response.data.data));
   },
 };
 </script>

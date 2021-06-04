@@ -5,7 +5,7 @@
         <div class="col-xl-5 col-md-6">
           <div class="mini-logo text-center my-4">
             <router-link to="landing"
-              ><img src="https://khodo.africa/wp-content/uploads/2021/02/Asset-3@3x.png" alt="" style="height:90px; width:auto"
+              ><img src="" alt="" style="height:90px; width:auto"
             /></router-link>
           </div>
           <div class="auth-form card">
@@ -20,13 +20,37 @@
                 class="signup_validate"
               >
                 <div class="form-group">
-                  <label>Username</label>
+                  <label>Full Name</label>
                   <input
                     type="text"
                     class="form-control"
-                    placeholder="username"
+                    placeholder="Full Name"
                     name="username"
                   />
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                <div class="form-group">
+                  <label>City</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="City"
+                    name="username"
+                  />
+                </div>
+                  </div>
+                   <div class="col-md-6">
+                      <div class="form-group">
+                  <label>Mobile</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Mobile Number"
+                    name="username"
+                  />
+                </div>
+                  </div>
                 </div>
                 <div class="form-group">
                   <label>Email</label>
@@ -37,6 +61,25 @@
                     name="email"
                   />
                 </div>
+                 <div class="row">
+                   <div class="col-md-8">
+                      <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Email Verification Code"
+                    name="username"
+                  />
+                </div>
+                   </div>
+                   <div class="col-md-4">
+                      <div class="form-group">
+                        <button class="bt btn-success btn-sm">
+                          Send OTP
+                        </button>
+                </div>
+                   </div>
+                 </div>
                 <div class="form-group">
                   <label>Password</label>
                   <input
@@ -74,6 +117,7 @@ export default {
   methods: {
     formSubmit() {
       console.log("hello");
+      this.$router.push({ name: "Otp2" });
     },
   },
 };
