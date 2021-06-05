@@ -133,8 +133,6 @@
                                         v-model="mwk_btc_buy"
                                         v-on:keyup="changeToBTCBuy"
                                       />
-                                     
-
                                       <label class="error" for="method">{{
                                         errors[0]
                                       }}</label>
@@ -220,8 +218,7 @@
                                     rules="required"
                                     v-slot="{ errors }"
                                   >
-                                    <div class="input-group">
-                                     
+                                    <div class="input-group">                                    
                                         <div class="input-group-prepend">
                                         <span class="input-group-text"
                                           >BCH</span
@@ -234,8 +231,6 @@
                                         v-model="bch"
                                         v-on:keyup="changeToMwkBCHBuy"
                                       />
-                                  
-
                                       <label class="error" for="method">{{
                                         errors[0]
                                       }}</label>
@@ -263,8 +258,6 @@
                                         v-model="mwk_bch_buy"
                                         v-on:keyup="changeToBCHBuy"
                                       />
-                                     
-
                                       <label class="error" for="method">{{
                                         errors[0]
                                       }}</label>
@@ -277,15 +270,14 @@
                              </div>
                           <!-- BCH Buy Fields End -->
                             <button
-                              type="submit"
                               name="submit"
                               class="btn btn-warning text-white btn-block"
                             >
                               Sale Now
                             </button>
                           </form>
-                        </ValidationObserver>
-                      </div>
+                      </ValidationObserver>
+                  </div>
               </div>
             </div>
           </div>
@@ -355,10 +347,14 @@ export default {
     this.mwk_bch_buy = (this.bch_in_usd*this.buy_rate);
   },
   methods: {
+
     closeFuntion() {
       this.showVideo = false;
     },
 
+    formSubmit(){
+      this.$router.push('/sale/airtel-money');
+    },
 
 //BTC Buy Function Convention
     changeToBTCBuy() {

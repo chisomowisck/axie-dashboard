@@ -29,8 +29,12 @@ import VerifyStep4 from "../views/VerifyStep4";
 import VerifyStep5 from "../views/VerifyStep5";
 import VerifyStep6 from "../views/VerifyStep6";
 import Transactions from "../views/Transactions/Index";
-import Buy from "../views/Transactions/Buy";
-import Sale from "../views/Transactions/Sale";
+import Buy from "../views/Buy/Index";
+import Sale from "../views/Sale/Index";
+import AirtelMoneySale from "../views/Sale/AirtelMoney";
+import BankSale from "../views/Sale/Bank";
+import BankBuy from "../views/Buy/Bank";
+import AirtelMoneyBuy from "../views/Buy/AirtelMoney";
 
 Vue.use(VueRouter);
 
@@ -54,9 +58,31 @@ const routes = [
   },
 
   {
+    path: "/buy/bank",
+    name: "BankBuy",
+    component: BankBuy,
+  },
+
+  {
+    path: "/buy/airtel-money",
+    name: "AirtelMoneyBuy",
+    component: AirtelMoneyBuy,
+  },
+
+  {
     path: "/sale",
     name: "Sale",
     component: Sale,
+  },
+  {
+    path: "/sale/airtel-money",
+    name: "AirtelMoneySale",
+    component: AirtelMoneySale,
+  },
+  {
+    path: "/sale/bank",
+    name: "BankSale",
+    component: BankSale,
   },
   {
     path: "/demo",
