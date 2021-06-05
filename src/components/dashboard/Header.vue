@@ -5,8 +5,8 @@
         <div class="col-xl-12">
           <nav class="navbar">
             <div class="header-search d-flex align-items-center">
-              <router-link class="brand-logo mr-3" to="index">
-                <img src="../../assets/images/logo.png" alt="" width="30" />
+              <router-link class="brand-logo mr-3" to="/">
+                <img src="https://khodo.africa/wp-content/uploads/2021/02/Asset-3@3x.png" alt="" width="30" />
               </router-link>
               <form action="#" @submit.prevent="">
                 <div class="input-group">

@@ -28,6 +28,9 @@ import VerifyStep3 from "../views/VerifyStep3";
 import VerifyStep4 from "../views/VerifyStep4";
 import VerifyStep5 from "../views/VerifyStep5";
 import VerifyStep6 from "../views/VerifyStep6";
+import Transactions from "../views/Transactions/Index";
+import Buy from "../views/Transactions/Buy";
+import Sale from "../views/Transactions/Sale";
 
 Vue.use(VueRouter);
 
@@ -37,6 +40,23 @@ const routes = [
     path: "/",
     name: "Landing",
     component: Landing,
+  },
+  {
+    path: "/transactions",
+    name: "Transactions",
+    component: Transactions,
+  },
+
+  {
+    path: "/buy",
+    name: "Buy",
+    component: Buy,
+  },
+
+  {
+    path: "/sale",
+    name: "Sale",
+    component: Sale,
   },
   {
     path: "/demo",
