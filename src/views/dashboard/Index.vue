@@ -26,12 +26,11 @@
                             </h5>
                           </div>
                           <h4>
-                            ${{crypto_rates.bitcoin.spot}}
-                            
-                            <span v-if="crypto_rates.bitcoin.price_change_percentage_24h >= 1" class="badge badge-success ml-2"> {{crypto_rates.bitcoin.price_change_percentage_24h.toFixed(2)}}%</span>
-                            <span v-if="crypto_rates.bitcoin.price_change_percentage_24h < 1" class="badge badge-danger ml-2"> {{crypto_rates.bitcoin.price_change_percentage_24h.toFixed(2)}}%</span>
+                            $34,463.10
+                            <span class="badge badge-success ml-2">+ 06%</span>
                           </h4>
                         </div>
+                        <btc-chart />
                       </div>
                     </div>
                   </div>
@@ -53,11 +52,11 @@
                             </h5>
                           </div>
                           <h4>
-                            ${{crypto_rates.ethereum.spot}}                            
-                            <span v-if="crypto_rates.ethereum.price_change_percentage_24h >= 1" class="badge badge-success ml-2"> {{crypto_rates.ethereum.price_change_percentage_24h.toFixed(2)}}%</span>
-                            <span v-if="crypto_rates.ethereum.price_change_percentage_24h < 1" class="badge badge-danger ml-2"> {{crypto_rates.ethereum.price_change_percentage_24h.toFixed(2)}}%</span>
+                            $2,309.00
+                            <span class="badge badge-danger ml-2">- 06%</span>
                           </h4>
                         </div>
+                        <btc-chart />
                       </div>
                     </div>
                   </div>
@@ -74,17 +73,16 @@
                           <div class="coin-title">
                             <span><i class="cc BCH-alt"></i></span>
                             <h5 class="d-inline-block ml-2 mb-3">
-                              Bitcoin Cash
+                              BT Cash
                               <span>(24h)</span>
                             </h5>
                           </div>
                           <h4>
-                            ${{crypto_rates.bitcoincash.spot}}
-                            
-                            <span v-if="crypto_rates.bitcoincash.price_change_percentage_24h > 1" class="badge badge-success ml-2"> {{crypto_rates.bitcoincash.price_change_percentage_24h.toFixed(2)}}%</span>
-                            <span v-if="crypto_rates.bitcoincash.price_change_percentage_24h < 1" class="badge badge-danger ml-2"> {{crypto_rates.bitcoincash.price_change_percentage_24h.toFixed(2)}}%</span>
+                            $695.01
+                            <span class="badge badge-primary ml-2"> 06%</span>
                           </h4>
                         </div>
+                        <btc-chart />
                       </div>
                     </div>
                   </div>
@@ -670,7 +668,7 @@
                               >
                                 <span class="text-primary"
                                   >{{ btc }} {{ currency }} <br />
-                                  For {{ mwk_btc_buy.toFixed(2) }} MWK
+                                  For {{ mwk_btc_buy.toLocaleString() }} MWK
                                 </span>
                               </td>
                               <td
@@ -680,7 +678,7 @@
                               >
                                 <span class="text-primary"
                                   >{{ eth }} {{ currency }} <br />
-                                  For {{ mwk_eth_buy.toFixed(2) }} MWK
+                                  For {{ mwk_eth_buy.toLocaleString() }} MWK
                                 </span>
                               </td>
                               <td
@@ -690,7 +688,7 @@
                               >
                                 <span class="text-primary"
                                   >{{ bch }} {{ currency }} <br />
-                                  For {{ mwk_bch_buy.toFixed(2) }} MWK
+                                  For {{ mwk_bch_buy.toLocaleString() }} MWK
                                 </span>
                               </td>
 
@@ -701,7 +699,7 @@
                               >
                                 <span class="text-primary"
                                   >{{ btc2 }} {{ currency }} <br />
-                                  For {{ mwk_btc_sale.toFixed(2) }} MWK
+                                  For {{ mwk_btc_sale.toLocaleString() }} MWK
                                 </span>
                               </td>
                               <td
@@ -711,7 +709,7 @@
                               >
                                 <span class="text-primary"
                                   >{{ eth2 }} {{ currency }} <br />
-                                  For {{ mwk_eth_sale.toFixed(2) }} MWK
+                                  For {{ mwk_eth_sale.toLocaleString() }} MWK
                                 </span>
                               </td>
                               <td
@@ -721,7 +719,7 @@
                               >
                                 <span class="text-primary"
                                   >{{ bch2 }} {{ currency }} <br />
-                                  For {{ mwk_bch_sale.toFixed(2) }} MWK
+                                  For {{ mwk_bch_sale.toLocaleString() }} MWK
                                 </span>
                               </td>
                             </tr>
@@ -771,19 +769,44 @@
           </div>
         </div>
       </div>
-     
+      <b-modal
+      id="modal-prevent-closing"
+      ref="modal"
+      title="Input your 4-digit PIN"
+      @show="resetModal"
+      @hidden="resetModal"
+      @ok="handleOk"
+    >
+      <form ref="form" @submit.stop.prevent="handleSubmit">
+        <b-form-group
+          label="PIN"
+          label-for="name-input"
+          invalid-feedback="PIN is required"
+          :state="nameState"
+        >
+          <b-form-input
+            id="name-input"
+            v-model="pin"
+            :state="nameState"
+            required
+          ></b-form-input>
+        </b-form-group>
+      </form>
+    </b-modal>
     </div>
   </layout>
 </template>
 
 <script>
 import Layout from "../../components/dashboard/Layout.vue";
+import BtcChart from "../../components/dashboard/charts/BtcChart.vue";
 import Toster from "../../components/dashboard/Toster.vue";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 export default {
   name: "Index",
   components: {
     Layout,
+    BtcChart,
     ValidationObserver,
     ValidationProvider,
     Toster,
@@ -822,7 +845,6 @@ export default {
       sale_rate: 850,
       buy_rate: 950,
       exchange_type: "buy",
-      crypto_rates: '',
     };
   },
 
@@ -833,19 +855,6 @@ export default {
   },
 
   mounted() {
-
-    this.sockets.subscribe('get bitcoin price', (data) => {
-    this.crypto_rates = data.prices;
-
-    this.mwk_btc_sale = data.prices.bitcoin.sell;
-    this.mwk_eth_sale = data.prices.ethereum.sell;
-    this.mwk_bch_sale = data.prices.bitcoincash.sell;
-
-    this.mwk_btc_buy = data.prices.bitcoin.buy;
-    this.mwk_eth_buy = data.prices.ethereum.buy;
-    this.mwk_bch_buy = data.prices.bitcoincash.buy;
-    
-});
     this.$axios
       .get(
         "/users/me/transactions?type=momo-transfer-sell-bitcoin,wallet-transfer-bitcoin&limit=0",
@@ -856,6 +865,14 @@ export default {
         }
       )
       .then((response) => (this.transactions = response.data.data));
+
+    this.mwk_btc_sale = this.btc_in_usd * this.sale_rate;
+    this.mwk_eth_sale = this.eth_in_usd * this.sale_rate;
+    this.mwk_bch_sale = this.bch_in_usd * this.sale_rate;
+
+    this.mwk_btc_buy = this.btc_in_usd * this.buy_rate;
+    this.mwk_eth_buy = this.eth_in_usd * this.buy_rate;
+    this.mwk_bch_buy = this.bch_in_usd * this.buy_rate;
   },
 
   methods: {
