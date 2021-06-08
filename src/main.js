@@ -11,7 +11,17 @@ import router from "./router";
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import store from './store'
+// import VueSocketIO from 'vue-socket.io'
 
+// Vue.use(new VueSocketIO({
+//     debug: true,
+//     connection: 'https://khodl-price-ticker.herokuapp.com/',
+//     vuex: {
+//         store,
+//         actionPrefix: 'SOCKET_',
+//         mutationPrefix: 'SOCKET_'
+//     },
+// }))
 Vue.use(DropdownPlugin);
 Vue.use(BootstrapVue);
 Vue.use(VueAxios, axios)

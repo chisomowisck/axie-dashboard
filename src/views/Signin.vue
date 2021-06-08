@@ -16,91 +16,69 @@
               <h4 class="card-title">Sign in</h4>
             </div>
             <div class="card-body">
-              <ValidationObserver v-slot="{ passes }">
-                <form
-                  method="post"
-                  name="myform"
-                  class="signin_validate"
-                  novalidate="novalidate"
-                  @submit.prevent="passes(formSubmit)"
+              <b-alert
+                variant="danger"
+                dismissible
+                fade
+                :show="verifyStatus == false"
+                @dismissed="verifyStatus = null"
+              >
+                {{ verifyMsg }}
+              </b-alert>
+              <ValidationObserver>
+                <ValidationProvider
+                  rules="required|email"
+                  v-slot="{ errors }"
+                  name="method"
+                  class="form-group"
+                  tag="div"
                 >
-                  <ValidationProvider
-                    rules="required|email"
-                    v-slot="{ errors }"
-                    name="method"
-                    class="form-group"
-                    tag="div"
-                  >
-                    <label>Email</label>
-                    <input
-                      type="email"
-                      class="form-control error"
-                      placeholder="hello@example.com"
-                      name="mobileOrEmail"
-                      v-model="mobileOrEmail"
-                      aria-invalid="true"
-                    />
-                    <label class="error" for="email">{{ errors[0] }}</label>
-                  </ValidationProvider>
-                  <ValidationProvider
-                    rules="passwordFieldName|verify_password"
-                    v-slot="{ errors }"
-                    name="password"
-                    class="form-group"
-                    tag="div"
-                  >
-                    <label>Password</label>
-                    <input
-                      type="password"
-                      class="form-control error"
-                      placeholder="Password"
-                      name="password"
-                      v-model="password"
-                      aria-invalid="true"
-                    />
-                    <label class="error" for="password">{{ errors[0] }}</label>
-                  </ValidationProvider>
+                  <label>Email</label>
+                  <input
+                    type="email"
+                    class="form-control error"
+                    v-model="mobileOrEmail"
+                    aria-invalid="true"
+                  />
+                  <label class="error" for="email">{{ errors[0] }}</label>
+                </ValidationProvider>
+                <ValidationProvider
+                  rules="passwordFieldName|verify_password"
+                  v-slot="{ errors }"
+                  name="password"
+                  class="form-group"
+                  tag="div"
+                >
+                  <label>Password</label>
+                  <input
+                    type="password"
+                    class="form-control error"
+                    v-model="password"
+                    aria-invalid="true"
+                  />
+                  <label class="error" for="password">{{ errors[0] }}</label>
+                </ValidationProvider>
 
-                  <ValidationProvider
-                    v-slot="{ errors }"
-                    name="pin"
-                    class="form-group"
-                    tag="div"
-                  >
-                    <label>PIN</label>
-                    <input
-                      type="number"
-                      class="form-control error"
-                      placeholder="PIN"
-                      name="pin"
-                      v-model="pin"
-                      aria-invalid="true"
-                    />
-                    <label class="error" for="pin">{{ errors[0] }}</label>
-                  </ValidationProvider>
-                  <div
-                    class="form-row d-flex justify-content-between mt-4 mb-2"
-                  >
-                    <div class="form-group mb-0">
-                      <label class="toggle">
-                        <input class="toggle-checkbox" type="checkbox" />
-                        <div class="toggle-switch"></div>
-                        <span class="toggle-label">Remember me</span>
-                      </label>
-                    </div>
-                    <div class="form-group mb-0">
-                      <router-link to="reset">Forgot Password?</router-link>
-                    </div>
+                <div class="form-row d-flex justify-content-between mt-4 mb-2">
+                  <div class="form-group mb-0">
+                    <label class="toggle">
+                      <input class="toggle-checkbox" type="checkbox" />
+                      <div class="toggle-switch"></div>
+                      <span class="toggle-label">Remember me</span>
+                    </label>
                   </div>
-                  <div class="text-center">
-                    <button
-                      type="submit"
-                      class="btn btn-success btn-block"
-                    >
-                      Sign in
-                    </button>
+                  <div class="form-group mb-0">
+                    <router-link to="reset">Forgot Password?</router-link>
                   </div>
-                </form>
+                </div>
+                <div class="text-center">
+                  <button
+                    v-b-modal.modal-prevent-closing
+                    class="bt btn-primary btn-block"
+                  >
+                    Sign in
+                  </button>
+                </div>
               </ValidationObserver>
               <div class="new-account mt-3">
                 <p>
@@ -115,6 +93,32 @@
         </div>
       </div>
     </div>
+
+    <b-modal
+      id="modal-prevent-closing"
+      ref="modal"
+      title="Input your 4-Digit PIN"
+      @show="resetModal"
+      @hidden="resetModal"
+      @ok="handleOk"
+    >
+      <form ref="form" @submit.stop.prevent="handleSubmit">
+        <b-form-group
+          label="PIN"
+          label-for="name-input"
+          invalid-feedback="PIN is required"
+          :state="nameState"
+        >
+          <b-form-input
+            id="name-input"
+            type="number"
+            v-model="pin"
+            :state="nameState"
+            required
+          ></b-form-input>
+        </b-form-group>
+      </form>
+    </b-modal>
   </div>
 </template>
 
@@ -125,73 +129,81 @@ export default {
   components: {
     ValidationObserver,
     ValidationProvider,
+    
   },
   data() {
     return {
       mobileOrEmail: null,
       password: null,
       pin: null,
+      name: "",
+      nameState: null,
+      submittedNames: [],
+      verifyStatus: null,
+    verifyMsg: null,
+    showDismissibleAlert: true,
     };
   },
   methods: {
-    signingIn() {
-      
-    },
+    signingIn() {},
 
     formSubmit() {
-
-
       this.internet = false;
       this.dialog = true;
       this.$store
         .dispatch("retrieveToken", {
           mobileOrEmail: this.mobileOrEmail,
           password: this.password,
-          pin: this.pin
+          pin: this.pin,
         })
         .then((response) => {
-          
-          
-           this.$router.push('/index'); 
+          this.$router.push("/index");
           console.log(response);
-          // if (response.data.status == "success") {
-          //   this.$router.push({ name: "Index" });
-            
-          //   // this.dialog = false;
-          //   // this.overlay = "";
-          //   // alert(response)
-          //   // this.$router.push({ name: "home" });
-          // }
-          // if (response.data.status == "error") {
-          //   this.$router.push({ name: "Index" });
-          //   //  alert(response)
-          //   // this.dialog = false;
-          //   // this.wrongCred = true;
-          //   // this.alertMessage = response.data.message;
-          // }
         })
         .catch((error) => {
-          alert(error)
-          // this.dialog = false;
-          // this.internet = true;
-          // this.alertMessage = "No Internet Connection!";
+          console.log(error);
         });
-
-      // this.$router.push("/otp-1");
-      // this.$axios
-      //   .post("/auth/user/login", {
-      //     mobileOrEmail: this.mobileOrEmail,
-      //     password: this.password,
-      //     pin: this.pin,
-      //   })
-      //   .then(
-      //     function (response) {
-      //       alert(response);
-      //     }.bind(this)
-      //   )
-      //   .catch((error) => {
-      //     alert(error);
-      //   });
+    },
+    checkFormValidity() {
+      const valid = this.$refs.form.checkValidity();
+      this.nameState = valid;
+      return valid;
+    },
+    resetModal() {
+      this.name = "";
+      this.nameState = null;
+    },
+    handleOk(bvModalEvt) {
+      // Prevent modal from closing
+      bvModalEvt.preventDefault();
+      // Trigger submit handler
+      this.handleSubmit();
+    },
+    handleSubmit() {
+      // Exit when the form isn't valid
+      if (!this.checkFormValidity()) {
+        return;
+      }
+      // Push the name to submitted names
+      this.$store
+        .dispatch("retrieveToken", {
+          mobileOrEmail: this.mobileOrEmail,
+          password: this.password,
+          pin: this.pin,
+        })
+        .then((response) => {
+          this.$router.push("/index");
+          console.log(response);
+        })
+        .catch((error) => {
+           this.verifyStatus = false;
+            this.verifyMsg = "Unable to Login, either Email, Password or PIN is incorect";
+            console.log(error);
+        });
+      // Hide the modal manually
+      this.$nextTick(() => {
+        this.$bvModal.hide("modal-prevent-closing");
+      });
     },
   },
 };

@@ -51,10 +51,6 @@ return state.token != null
     
     retrieveToken(context, credentials) {
       return new Promise((resolve, reject) => {
-    //   const formData = new FormData();
-    //   formData.append("username", credentials.username);
-    //   formData.append("password", credentials.password);
-
         axios.post('/auth/user/login', {
             mobileOrEmail: credentials.mobileOrEmail,
             password: credentials.password,
