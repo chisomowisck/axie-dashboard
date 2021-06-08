@@ -670,7 +670,7 @@
                               >
                                 <span class="text-primary"
                                   >{{ btc }} {{ currency }} <br />
-                                  For {{ mwk_btc_buy }} MWK
+                                  For {{ mwk_btc_buy.toFixed(2) }} MWK
                                 </span>
                               </td>
                               <td
@@ -680,7 +680,7 @@
                               >
                                 <span class="text-primary"
                                   >{{ eth }} {{ currency }} <br />
-                                  For {{ mwk_eth_buy }} MWK
+                                  For {{ mwk_eth_buy.toFixed(2) }} MWK
                                 </span>
                               </td>
                               <td
@@ -690,7 +690,7 @@
                               >
                                 <span class="text-primary"
                                   >{{ bch }} {{ currency }} <br />
-                                  For {{ mwk_bch_buy }} MWK
+                                  For {{ mwk_bch_buy.toFixed(2) }} MWK
                                 </span>
                               </td>
 
@@ -701,7 +701,7 @@
                               >
                                 <span class="text-primary"
                                   >{{ btc2 }} {{ currency }} <br />
-                                  For {{ mwk_btc_sale }} MWK
+                                  For {{ mwk_btc_sale.toFixed(2) }} MWK
                                 </span>
                               </td>
                               <td
@@ -711,7 +711,7 @@
                               >
                                 <span class="text-primary"
                                   >{{ eth2 }} {{ currency }} <br />
-                                  For {{ mwk_eth_sale }} MWK
+                                  For {{ mwk_eth_sale.toFixed(2) }} MWK
                                 </span>
                               </td>
                               <td
@@ -721,7 +721,7 @@
                               >
                                 <span class="text-primary"
                                   >{{ bch2 }} {{ currency }} <br />
-                                  For {{ mwk_bch_sale }} MWK
+                                  For {{ mwk_bch_sale.toFixed(2) }} MWK
                                 </span>
                               </td>
                             </tr>
@@ -836,6 +836,15 @@ export default {
 
     this.sockets.subscribe('get bitcoin price', (data) => {
     this.crypto_rates = data.prices;
+
+    this.mwk_btc_sale = data.prices.bitcoin.sell;
+    this.mwk_eth_sale = data.prices.ethereum.sell;
+    this.mwk_bch_sale = data.prices.bitcoincash.sell;
+
+    this.mwk_btc_buy = data.prices.bitcoin.buy;
+    this.mwk_eth_buy = data.prices.ethereum.buy;
+    this.mwk_bch_buy = data.prices.bitcoincash.buy;
+    
 });
     this.$axios
       .get(
@@ -847,14 +856,6 @@ export default {
         }
       )
       .then((response) => (this.transactions = response.data.data));
-
-    this.mwk_btc_sale = this.btc_in_usd * this.sale_rate;
-    this.mwk_eth_sale = this.eth_in_usd * this.sale_rate;
-    this.mwk_bch_sale = this.bch_in_usd * this.sale_rate;
-
-    this.mwk_btc_buy = this.btc_in_usd * this.buy_rate;
-    this.mwk_eth_buy = this.eth_in_usd * this.buy_rate;
-    this.mwk_bch_buy = this.bch_in_usd * this.buy_rate;
   },
 
   methods: {
