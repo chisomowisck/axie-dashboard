@@ -15,7 +15,7 @@ import VueSocketIO from 'vue-socket.io'
  
 Vue.use(new VueSocketIO({
     debug: true,
-    connection: 'ws://khodl-price-ticker.herokuapp.com:80'
+    connection: 'ws://khodl-price-ticker.herokuapp.com'
     // vuex: {
     //     store,
     //     actionPrefix: 'SOCKET_',
