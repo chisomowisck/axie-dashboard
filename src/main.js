@@ -11,18 +11,18 @@ import router from "./router";
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import store from './store'
-import VueSocketIO from 'vue-socket.io'
+// import VueSocketIO from 'vue-socket.io'
  
-Vue.use(new VueSocketIO({
-    debug: true,
-    connection: 'ws://khodl-price-ticker.herokuapp.com:80',
-    vuex: {
-        store,
-        actionPrefix: 'SOCKET_',
-        mutationPrefix: 'SOCKET_'
-    },
-    //options: { path: "/my-app/" } //Optional options
-}))
+// Vue.use(new VueSocketIO({
+//     debug: true,
+//     connection: 'ws://khodl-price-ticker.herokuapp.com:80',
+//     vuex: {
+//         store,
+//         actionPrefix: 'SOCKET_',
+//         mutationPrefix: 'SOCKET_'
+//     },
+//     //options: { path: "/my-app/" } //Optional options
+// }))
 Vue.use(DropdownPlugin);
 Vue.use(BootstrapVue);
 Vue.use(VueAxios, axios)
