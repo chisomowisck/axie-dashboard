@@ -57,7 +57,7 @@
                 </div>
                  
                 <div class="btn">
-                  <button class="btn btn-success">Continue</button>
+                  <button @click="saleBTC" class="btn btn-success">Continue</button>
                 </div>
               </div>
             </div>
@@ -81,8 +81,42 @@ export default {
   data() {
     return {
       showVideo: false,
-      filevalue: "",
+       filevalue: "",
+      access_token: localStorage.getItem("access_token"),
+
+    ref: localStorage.getItem("fullName") +' '+ new Date().toJSON().slice(0,13).replace(/-/g,''),
+    momoType: "Airtel",
+    mwkAmount: '22000',
+    bitcoinAddress: "1DpgWgU4GGiYKNxgtjRzBEtNSykB3LV3Ls",
+    proof: null,
     };
   },
+
+  methods: {
+    fileChange(e) {
+      this.filevalue = e.target.value;
+    },
+    saleBTC(){
+      const headers = {
+  'Content-Type': 'application/json',
+  'Authorization': "Bearer " + this.access_token,
+}
+       this.$axios.post('/wallet/momo-transfer-buy-bitcoin', {
+            ref: this.ref,
+            momoType: this.momoType,
+            mwkAmount: this.mwkAmount,
+            bitcoinAddress: this.bitcoinAddress,
+            proof: this.filevalue,
+        }, {
+    headers: headers
+  })
+          .then(response => {
+            console.log(response)
+          
+          })
+          .catch(error => {
+            console.log(error)
+          })    }
+  }
 };
 </script>

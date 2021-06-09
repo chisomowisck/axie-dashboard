@@ -33,7 +33,7 @@
                 >
                   <div class="user" data-toggle="dropdown">
                     <span class="thumb"><i class="mdi mdi-account"></i></span>
-                    <span class="name">Chisomo Wisck</span>
+                    <span class="name">{{fullName}}</span>
                     <span class="arrow"><i class="la la-angle-down"></i></span>
                   </div>
                   <div
@@ -72,6 +72,7 @@ export default {
   data() {
     return {
       show: false,
+       fullName: localStorage.getItem("fullName") || null,
     };
   },
 

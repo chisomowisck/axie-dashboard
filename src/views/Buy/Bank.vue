@@ -47,7 +47,7 @@
                 
                 </div>
                  <div class="btn">
-                  <button class="btn btn-success">Continue</button>
+                  <button @click="saleBTC" class="btn btn-success">Continue</button>
                 </div>
           </div>
           <div class="col-md-4">
@@ -91,6 +91,14 @@ export default {
       active: "all",
       transactions: [],
       access_token: localStorage.getItem("access_token"),
+      filevalue: "",
+
+      bank: "FDH",
+      accountNumber: "30001440589404",
+      mwkAmount: '22000',
+      ref: "Carol Doyle Testing buy 1btc",
+      bitcoinAddress: '1DpgWgU4GGiYKNxgtjRzBEtNSykB3LV3Ls',
+      proof: null,
     };
   },
 
@@ -109,5 +117,39 @@ export default {
 })
       .then((response) => (this.transactions = response.data.data));
   },
-};
+
+  methods: {
+     fileChange(e) {
+      this.filevalue = e.target.value;
+    },
+    saleBTC(){
+
+
+     // alert('hhhh')
+      const headers = {
+  'Content-Type': 'application/json',
+  'Authorization': "Bearer " + this.access_token,
+}
+       this.$axios.post('/wallet/bank-transfer-buy-bitcoin', {
+          
+            bank: this.bank,
+            accountNumber: this.accountNumber,
+            mwkAmount: this.mwkAmount,
+            ref: this.ref,
+            bitcoinAddress: this.bitcoinAddress,
+            proof: this.filevalue,
+        }, {
+    headers: headers
+  })
+          .then(response => {
+            console.log(response)
+          
+          })
+          .catch(error => {
+            console.log(error)
+          })  
+  }
+  }
+  }
+
 </script>

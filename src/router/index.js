@@ -32,9 +32,12 @@ import Transactions from "../views/Transactions/Index";
 import Buy from "../views/Buy/Index";
 import Sale from "../views/Sale/Index";
 import AirtelMoneySale from "../views/Sale/AirtelMoney";
+import TnmMpambaSale from "../views/Sale/Mpamba";
 import BankSale from "../views/Sale/Bank";
+
 import BankBuy from "../views/Buy/Bank";
 import AirtelMoneyBuy from "../views/Buy/AirtelMoney";
+import TnmMpambaBuy from "../views/Buy/Mpamba";
 
 Vue.use(VueRouter);
 
@@ -70,6 +73,13 @@ const routes = [
   },
 
   {
+    path: "/buy/tnm-mpamba",
+    name: "TnmMpambaBuy",
+    component: TnmMpambaBuy,
+  },
+  
+
+  {
     path: "/sale",
     name: "Sale",
     component: Sale,
@@ -78,6 +88,11 @@ const routes = [
     path: "/sale/airtel-money",
     name: "AirtelMoneySale",
     component: AirtelMoneySale,
+  },
+  {
+    path: "/sale/tnm-mpamba",
+    name: "TnmMpambaSale",
+    component: TnmMpambaSale,
   },
   {
     path: "/sale/bank",

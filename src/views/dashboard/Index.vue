@@ -81,7 +81,6 @@
                           </div>
                           <h4>
                             ${{crypto_rates.bitcoincash.spot}}
-                            
                             <span v-if="crypto_rates.bitcoincash.price_change_percentage_24h > 1" class="badge badge-success ml-2"> {{crypto_rates.bitcoincash.price_change_percentage_24h.toFixed(2)}}%</span>
                             <span v-if="crypto_rates.bitcoincash.price_change_percentage_24h < 1" class="badge badge-danger ml-2"> {{crypto_rates.bitcoincash.price_change_percentage_24h.toFixed(2)}}%</span>
                           </h4>
@@ -814,6 +813,7 @@ export default {
       mwk_eth_sale: null,
       mwk_bch_sale: null,
       mwk_btc_buy: null,
+      mwk_btc_kbuy: null,
       mwk_eth_buy: null,
       mwk_bch_buy: null,
       btc_in_usd: 37780.35,
@@ -831,6 +831,10 @@ export default {
     transactionList() {
       return this.transactions;
     },
+
+    // sum() {
+    //   return this.btc*this.mwk_btc_buy;
+    // },
   },
 
   mounted() {
@@ -843,6 +847,7 @@ export default {
     this.mwk_bch_sale = data.prices.bitcoincash.sell;
 
     this.mwk_btc_buy = data.prices.bitcoin.buy;
+    this.mwk_btc_kbuy = data.prices.bitcoin.buy;
     this.mwk_eth_buy = data.prices.ethereum.buy;
     this.mwk_bch_buy = data.prices.bitcoincash.buy;
     
@@ -857,6 +862,17 @@ export default {
         }
       )
       .then((response) => (this.transactions = response.data.data));
+
+      this.$axios
+      .get(
+        "/users/me/profile",
+        {
+          headers: {
+            Authorization: "Bearer " + this.access_token,
+          },
+        }
+      )
+      .then((response) => (localStorage.setItem("fullName", response.data.data.fullName)));
   },
 
   methods: {
@@ -866,11 +882,11 @@ export default {
 
     //BTC Buy Function Convention
     changeToBTCBuy() {
-      var btcConv = this.mwk_btc_buy / (this.btc_in_usd * this.buy_rate);
+      var btcConv = parseInt(this.mwk_btc_buy) / parseInt(this.k_btc_kbuy);
       this.btc = btcConv.toFixed(5);
     },
     changeToMwkBTCBuy() {
-      var mwkConv = this.btc * (this.btc_in_usd * this.buy_rate);
+      var mwkConv = this.btc * this.k_btc_kbuy;
       this.mwk_btc_buy = mwkConv.toFixed(2);
     },
     //BTC Sale Function Convention
