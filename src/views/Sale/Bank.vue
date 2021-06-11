@@ -6,7 +6,7 @@
           <div class="col-xl-12 col-lg-6 col-md-12">
             <div class="card acc_balance">
               <div class="card-header">
-                <h4 class="card-title">Bank2 Payment</h4>
+                <h4 class="card-title">Bank Payment</h4>
               </div>
               <div class="card-body">
                 <div class="row">

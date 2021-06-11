@@ -360,8 +360,8 @@
                             <button
                               type="submit"
                               name="submit"
-                              class="btn btn-success btn-block">
-                              Buy Now
+                              class="btn btn-warning text-white btn-block">
+                              Sale Now
                             </button>
                           </form>
                         </ValidationObserver>
@@ -463,10 +463,18 @@ export default {
        });
   },
   methods: {
-    closeFuntion() {
-      this.showVideo = false;
-    },
 
+    formSubmit() {
+      if (this.method == "Airtel Money") {
+        this.$router.push("/sale/airtel-money");
+      }
+      if (this.method == "Mpamba") {
+        this.$router.push("/sale/tnm-mpamba");
+      }
+      if (this.method == "Bank") {
+        this.$router.push("/sale/bank");
+      }
+      },
       //BTC Sale Function Convention
     changeToBTCSale() {
       this.btc_calc_status = "btc";
