@@ -465,6 +465,34 @@ export default {
   methods: {
 
     formSubmit() {
+
+      
+      if(this.currency == 'BTC'){
+        this.$store.dispatch("saleCrypto",{
+          currency: this.currency,
+          paymentMethod: this.method,
+          cryptoValue: this.btcConvSaleMWK,
+          cryptoValueMWK: this.btc_mwk,
+        });
+      }
+
+      if(this.currency == 'ETH'){
+        this.$store.dispatch("saleCrypto",{
+          currency: this.currency,
+          paymentMethod: this.method,
+          cryptoValue: this.ethConvSaleMWK,
+          cryptoValueMWK: this.eth_mwk,
+        });
+      }
+
+      if(this.currency == 'BCH'){
+        this.$store.dispatch("saleCrypto",{
+          currency: this.currency,
+          paymentMethod: this.method,
+          cryptoValue: this.bchConvSaleMWK,
+          cryptoValueMWK: this.eth_mwk,
+        });
+      }
       if (this.method == "Airtel Money") {
         this.$router.push("/sale/airtel-money");
       }

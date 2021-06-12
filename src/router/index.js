@@ -29,15 +29,18 @@ import VerifyStep4 from "../views/VerifyStep4";
 import VerifyStep5 from "../views/VerifyStep5";
 import VerifyStep6 from "../views/VerifyStep6";
 import Transactions from "../views/Transactions/Index";
-import Buy from "../views/Buy/Index";
+
 import Sale from "../views/Sale/Index";
 import AirtelMoneySale from "../views/Sale/AirtelMoney";
 import TnmMpambaSale from "../views/Sale/Mpamba";
+import ThanksSale from "../views/Sale/Thanks";
 import BankSale from "../views/Sale/Bank";
 
+import Buy from "../views/Buy/Index";
 import BankBuy from "../views/Buy/Bank";
 import AirtelMoneyBuy from "../views/Buy/AirtelMoney";
 import TnmMpambaBuy from "../views/Buy/Mpamba";
+import ThanksBuy from "../views/Buy/Thanks";
 
 Vue.use(VueRouter);
 
@@ -58,6 +61,12 @@ const routes = [
     path: "/buy",
     name: "Buy",
     component: Buy,
+  },
+
+  {
+    path: "/buy/thank-you",
+    name: "ThanksBuy",
+    component: ThanksBuy,
   },
 
   {
@@ -84,6 +93,12 @@ const routes = [
     name: "Sale",
     component: Sale,
   },
+
+  {
+    path: "/sale/thank-you",
+    name: "ThanksSale",
+    component: ThanksSale,
+  },
   {
     path: "/sale/airtel-money",
     name: "AirtelMoneySale",
@@ -108,6 +123,9 @@ const routes = [
     path: "/index",
     name: "Index",
     component: Index,
+     meta: {
+            requiresAuth: true,
+        }
   },
   {
     path: "/buy-sell",

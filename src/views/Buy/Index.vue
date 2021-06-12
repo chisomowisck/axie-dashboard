@@ -422,6 +422,8 @@ export default {
       eth_calc_status: "mwk_eth",
       bch_mwk: 30000,
       bch_calc_status: "mwk_bch",
+
+      gdgd: ''
     };
   },
 
@@ -466,6 +468,34 @@ export default {
   },
   methods: {
     formSubmit() {
+
+      if(this.currency == 'BTC'){
+        this.$store.dispatch("buyCrypto",{
+          currency: this.currency,
+          paymentMethod: this.method,
+          cryptoValue: this.btcConvBuyMWK,
+          cryptoValueMWK: this.btc_mwk,
+        });
+      }
+
+      if(this.currency == 'ETH'){
+        this.$store.dispatch("buyCrypto",{
+          currency: this.currency,
+          paymentMethod: this.method,
+          cryptoValue: this.ethConvBuyMWK,
+          cryptoValueMWK: this.eth_mwk,
+        });
+      }
+
+      if(this.currency == 'BCH'){
+        this.$store.dispatch("buyCrypto",{
+          currency: this.currency,
+          paymentMethod: this.method,
+          cryptoValue: this.bchConvBuyMWK,
+          cryptoValueMWK: this.eth_mwk,
+        });
+      }
+      
       if (this.method == "Airtel Money") {
         this.$router.push("/buy/airtel-money");
       }

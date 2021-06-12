@@ -140,12 +140,7 @@
                           role="tabpanel"
                         >
                           <div class="buy-sell-widget px-2">
-                            <ValidationObserver v-slot="{ passes }">
-                              <form
-                                @submit.prevent="passes(formSubmit)"
-                                class="currency_validate"
-                                method="post"
-                              >
+                            <ValidationObserver >
                                 <ValidationProvider
                                   rules="required"
                                   v-slot="{ errors }"
@@ -465,11 +460,27 @@
                                 </div>
                                 <!-- BCH Buy Fields END -->
                                 <a
-                                  href="#continue"
+                                v-if="currency == 'BTC'"
+                                  
                                   class="btn btn-success btn-block"
+                                  @click="buyBitcoin"
                                   >Buy Now</a
                                 >
-                              </form>
+                                 <a
+                                 v-if="currency == 'ETH'"
+                                  
+                                  class="btn btn-success btn-block"
+                                  @click="buyEthereum"
+                                  >Buy Now</a
+                                >
+                                 <a
+                                 v-if="currency == 'BCH'"
+                                  
+                                  class="btn btn-success btn-block"
+                                  @click="buyBitcoinCash"
+                                  >Buy Now</a
+                                >
+                             
                             </ValidationObserver>
                           </div>
                         </b-tab>
@@ -480,12 +491,7 @@
                           v-on:click="sellTabClick"
                         >
                           <div class="buy-sell-widget px-2">
-                            <ValidationObserver v-slot="{ passes }">
-                              <form
-                                @submit.prevent="passes(formSubmit)"
-                                class="currency_validate"
-                                method="post"
-                              >
+                            <ValidationObserver >
                                 <ValidationProvider
                                   rules="required"
                                   v-slot="{ errors }"
@@ -805,14 +811,28 @@
                                   <br />
                                 </div>
                                 <!-- BCH Sale Fields End -->
-                                <button
-                                  type="submit"
-                                  name="submit"
-                                  class="btn btn-danger text-white btn-block"
+                                <a
+                                v-if="currency == 'BTC'"
+                                  
+                                  class="btn btn-warning btn-block"
+                                  @click="saleBitcoin"
+                                  >Buy Now</a
                                 >
-                                  Sell Now
-                                </button>
-                              </form>
+                                 <a
+                                 v-if="currency == 'ETH'"
+                                  
+                                  class="btn btn-warning btn-block"
+                                  @click="saleEthereum"
+                                  >Buy Now</a
+                                >
+                                 <a
+                                 v-if="currency == 'BCH'"
+                                  
+                                  class="btn btn-warning btn-block"
+                                  @click="saleBitcoinCash"
+                                  >Buy Now</a
+                                >
+                             
                             </ValidationObserver>
                           </div>
                         </b-tab>
@@ -1078,6 +1098,132 @@ export default {
   },
 
   methods: {
+    buyBitcoin(){
+       this.$store.dispatch("buyCrypto",{
+          currency: this.currency,
+          paymentMethod: this.method,
+          cryptoValue: this.btcConvBuyMWK,
+          cryptoValueMWK: this.btc_mwk,
+        });
+      if(this.method == 'Airtel Money'){
+        this.$router.push({ name: 'AirtelMoneyBuy'})
+      }
+
+      if(this.method == 'Mpamba'){
+         this.$router.push('buy/tnm-mpamba')
+      }
+
+      if(this.method == 'Bank'){
+        this.$router.push('buy/bank')
+      }
+      
+    },
+
+     saleBitcoin(){
+
+       this.$store.dispatch("saleCrypto",{
+          currency: this.currency,
+          paymentMethod: this.method,
+          cryptoValue: this.btcConvSaleMWK,
+          cryptoValueMWK: this.btc_mwk,
+        });
+
+       if(this.method == 'Airtel Money'){
+        this.$router.push('sale/airtel-money')
+      }
+
+      if(this.method == 'Mpamba'){
+         this.$router.push('sale/tnm-mpamba')
+      }
+
+      if(this.method == 'Bank'){
+        this.$router.push('sale/bank')
+      }
+    },
+
+    buyEthereum(){
+       this.$store.dispatch("buyCrypto",{
+          currency: this.currency,
+          paymentMethod: this.method,
+          cryptoValue: this.ethConvBuyMWK,
+          cryptoValueMWK: this.eth_mwk,
+        });
+
+      if(this.method == 'Airtel Money'){
+        this.$router.push('buy/airtel-money')
+      }
+
+      if(this.method == 'Mpamba'){
+         this.$router.push('buy/tnm-mpamba')
+      }
+
+      if(this.method == 'Bank'){
+        this.$router.push('buy/bank')
+      }
+      
+    },
+
+    saleEthereum(){
+      this.$store.dispatch("saleCrypto",{
+          currency: this.currency,
+          paymentMethod: this.method,
+          cryptoValue: this.ethConvSaleMWK,
+          cryptoValueMWK: this.eth_mwk,
+        });
+       if(this.method == 'Airtel Money'){
+        this.$router.push('sale/airtel-money')
+      }
+
+      if(this.method == 'Mpamba'){
+         this.$router.push('sale/tnm-mpamba')
+      }
+
+      if(this.method == 'Bank'){
+        this.$router.push('sale/bank')
+      }
+    },
+
+    buyBitcoinCash(){
+      
+       this.$store.dispatch("buyCrypto",{
+          currency: this.currency,
+          paymentMethod: this.method,
+          cryptoValue: this.ethConvBuyMWK,
+          cryptoValueMWK: this.eth_mwk,
+        });
+
+      if(this.method == 'Airtel Money'){
+        this.$router.push('buy/airtel-money')
+      }
+
+      if(this.method == 'Mpamba'){
+         this.$router.push('buy/tnm-mpamba')
+      }
+
+      if(this.method == 'Bank'){
+        this.$router.push('buy/bank')
+      }
+      
+    },
+    saleBitcoinCash(){
+       this.$store.dispatch("saleCrypto",{
+          currency: this.currency,
+          paymentMethod: this.method,
+          cryptoValue: this.bchConvSaleMWK,
+          cryptoValueMWK: this.eth_mwk,
+        });
+
+       if (this.method == "Airtel Money") {
+        this.$router.push("/sale/airtel-money");
+      }
+      if (this.method == "Mpamba") {
+        this.$router.push("/sale/tnm-mpamba");
+      }
+      if (this.method == "Bank") {
+        this.$router.push("/sale/bank");
+      }
+    },
+
     closeFuntion() {
       this.showVideo = false;
     },

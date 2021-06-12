@@ -84,48 +84,25 @@
                 {{ verifyMsg }}
               </b-alert>
               <div class="row">
-
                 <div class="col-md-12">
-                   <label style="color:#000000">Input Verification Code</label>
-                   <div class="input-group">
-                    
-                                            <div class="input-group-prepend">
-                                              <button @click="verifyEmail" class="input-group-text"
-                                                >Send OTP</button
-                                              >
-                                            </div>
-                                            <input
-                                              type="text"
-                                              class="form-control"
-                                              placeholder="OTP Code here"
-                                              v-model="otp"
-                                              required
-                                            />
-                </div>
-
-                </div>
-                <!-- <div class="col-md-8 col-sm-8 col-xs-8">
-                  <div class="form-group">
-                    <label>Email Verification Code</label>
+                  <label style="color: #000000">Input Verification Code</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <button @click="verifyEmail" class="input-group-text">
+                        Send OTP
+                      </button>
+                    </div>
                     <input
                       type="text"
                       class="form-control"
+                      placeholder="OTP Code here"
                       v-model="otp"
                       required
                     />
                   </div>
                 </div>
-                <div class="col-md-4 col-sm-4 col-xs-4">
-                  <div class="form-group">
-                    <br />
-                    <br />
-                    <button @click="verifyEmail" class="bt btn-primary btn-sm">
-                      Send OTP
-                    </button>
-                  </div>
-                </div> -->
               </div>
-              <br>
+              <br />
               <div class="form-group">
                 <label>Password</label>
                 <input
@@ -202,35 +179,10 @@ export default {
       verifyMsg: null,
       verifyMsg2: null,
       showDismissibleAlert: true,
+      nameState: '',
     };
   },
   methods: {
-    formSubmit() {
-      this.$axios
-        .post("/auth/user/register", {
-          fullName: this.fullName,
-          email: this.email,
-          mobile: this.mobile,
-          country: this.country,
-          city: this.city,
-          password: this.password,
-          pin: this.pin,
-          otp: this.otp,
-        })
-        .then(
-          function (response) {
-            this.verifyStatus = response.data.success;
-            this.verifyMsg = response.data.message;
-            console.log(response);
-          }.bind(this)
-        )
-        .catch((error) => {
-          console.log(error);
-          alert(error);
-        });
-      // this.$router.push({ name: "Otp2" });
-    },
-
     verifyEmail() {
       this.$axios
         .post("/auth/user/verify-email", {
@@ -245,38 +197,8 @@ export default {
         )
         .catch((error) => {
           this.verifyStatus = false;
-            this.verifyMsg = 'Invali Email or User for that Email already Exists';
+          this.verifyMsg = "Invalid Email or User Already Exists";
           console.log(error);
-        });
-    },
-
-    registerUser() {
-      this.$axios
-        .post("/auth/user/register", {
-          fullName: this.fullName,
-          email: this.email,
-          mobile: this.mobile,
-          country: this.country,
-          city: this.city,
-          password: this.password,
-          pin: this.pin,
-          otp: this.otp,
-        })
-        .then(
-          function (response) {
-            if (response.data.success == true) {
-              localStorage.setItem("access_token", response.data.token);
-              this.$router.push({ name: "Index" });
-            }
-
-            if (response.data.success == false) {
-              console.log(response);
-            }
-          }.bind(this)
-        )
-        .catch((error) => {
-          console.log(error);
-          alert(error);
         });
     },
 
@@ -302,8 +224,9 @@ export default {
         return;
       }
       // Push the name to submitted names
-      this.$axios
-        .post("/auth/user/register", {
+
+      this.$store
+        .dispatch("registerUser", {
           fullName: this.fullName,
           email: this.email,
           mobile: this.mobile,
@@ -313,22 +236,14 @@ export default {
           pin: this.pin,
           otp: this.otp,
         })
-        .then(
-          function (response) {
-            if (response.data.success == true) {
-              localStorage.setItem("access_token", response.data.token);
-              this.$router.push({ name: "Index" });
-            }
-
-            if (response.data.success == false) {
-              console.log(response);
-            }
-          }.bind(this)
-        )
+        .then((response) => {
+          this.$router.push("/index");
+          console.log(response);
+        })
         .catch((error) => {
-            this.verifyStatus2 = true;
-            this.verifyMsg2 = "Unable to create an Account";
-            console.log(error);
+          this.verifyStatus2 = true;
+          this.verifyMsg2 = "Unable to create an Account";
+          console.log(error);
         });
       // Hide the modal manually
       this.$nextTick(() => {

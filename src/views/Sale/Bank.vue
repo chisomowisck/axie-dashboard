@@ -14,25 +14,17 @@
                     <div class="row">
                       <div class="col-md-6">
                         <span>Selling</span>
-                        <h3>0.0230145 BTC</h3>
+                        <h3>
+                          {{ cryptoValue }}
+                          {{ currency }}
+                        </h3>
                       </div>
                       <div class="col-md-6">
                         <span>For</span>
-                        <h3>20,000 MWK</h3>
+                        <h3>MWK {{ mwkAmount }}</h3>
                       </div>
                     </div>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <span>Phone</span>
-                        <h3>0999534173</h3>
-                      </div>
-                      <div class="col-md-6">
-                        <span>Reference</span>
-                        <h3>Chisomo Wisck</h3>
-                      </div>
-                    </div>
-
-                    <div class="row">
+                     <div class="row">
                       <div class="col-md-6">
                         <span>Bank Name</span>
                         <input
@@ -85,8 +77,8 @@
                         />
                       </div>
                       <div class="col-md-6">
-                        <div class="form-group col-xl-12">
-                          <br />
+                         <div class="form-group col-xl-12">
+                          <span>Proof of Payment</span>
                           <div
                             class="file-upload-wrapper"
                             v-bind:data-text="
@@ -97,14 +89,27 @@
                               name="fileValue"
                               type="file"
                               class="file-upload-field"
+                              accept="image/*"
+                              @change="handleFileUpload"
                             />
-                          </div>
+                        </div>                        
                         </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                         <div class="card">
+                           <img class="card-img" v-bind:src="proof" />
+                         </div>
+                      </div>
+                      <div class="col-md-6">
+                        <span>Reference</span>
+                        <h3>{{ ref }}</h3>
                       </div>
                     </div>
                   </div>
                   <div class="col-md-4">
-                    <span>BTC Addrees</span>
+                    <span>Wallet Addrees</span>
                     <h6>BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2P2SH</h6>
                     <div class="d-flex justify-content-center">
                       <img
@@ -116,7 +121,13 @@
                 </div>
 
                 <div class="btn">
-                  <button v-on:click="saleBTC" class="btn btn-success">
+                  <button v-on:click="saleBTC" class="btn btn-success" v-if="currency =='BTC'">
+                    Continue
+                  </button>
+                  <button v-on:click="saleETH" class="btn btn-success" v-if="currency =='ETH'">
+                    Continue
+                  </button>
+                  <button v-on:click="saleBCH" class="btn btn-success" v-if="currency =='BCH'">
                     Continue
                   </button>
                 </div>
@@ -144,41 +155,65 @@ export default {
       showVideo: false,
       filevalue: "",
       access_token: localStorage.getItem("access_token"),
+      ref: localStorage.getItem("fullName") + " " + 1,
+      // ref:localStorage.getItem("fullName") + " " + new Date().toJSON().slice(0, 13).replace(/-/g, ""),
 
-      fullname: "",
+      currency: null,
+      momoType: "bank",
+      mwkAmount: null,
+      cryptoValue: null,
+      phoneNumber: null,
+      bitcoinAddress: '1DpgWgU4GGiYKNxgtjRzBEtNSykB3LV3Ls',
+      ethereumAddress: null,
+      bitcoinCashAddress: null,
+      proof: '',
+      image: '',
 
-      //ref: localStorage.getItem("fullName") +' '+ new Date().toJSON().slice(0,13).replace(/-/g,''),
-
-      bank: "FDH",
-      mwkAmount: "22000",
-      // btcAmount: '0.0001',
-      bankBranch: "Lilongwe",
-      // bitcoinAddress: '1DpgWgU4GGiYKNxgtjRzBEtNSykB3LV3Ls',
-      accountName: "Carol Doyle",
-      accountNumber: "30001440589404",
-      proof: null,
+      bank: null,
+      bankBranch: null,
+      accountName: null,
+      accountNumber: null,
     };
   },
+
+  mounted() {
+    //this.saleDetails = this.$store.getters.getsaleDetails;
+    this.currency = this.$store.getters.getsaleDetails.currency;
+    this.mwkAmount = this.$store.getters.getsaleDetails.cryptoValueMWK;
+    this.cryptoValue = this.$store.getters.getsaleDetails.cryptoValue
+  },
+
   methods: {
-    fileChange(e) {
-      this.filevalue = e.target.value;
-    },
+
+  handleFileUpload(event){
+    this.filevalue = event.target.value;
+    const selectedImage = event.target.files[0];
+    this.createBase64Image(selectedImage);
+  },
+
+  createBase64Image(fileObject){
+    const reader = new FileReader();
+
+    reader.onload = (event) => {
+      this.proof = event.target.result;
+    };
+    reader.readAsDataURL(fileObject)
+},
     saleBTC() {
-      // alert('hhhhh')
       const headers = {
         "Content-Type": "application/json",
         Authorization: "Bearer " + this.access_token,
       };
       this.$axios
         .post(
-          "/wallet/bank-transfer-buy-bitcoin",
+          "/wallet/bank-transfer-sell-bitcoin",
           {
-            bank: this.momoType,
-            mwkAmount: this.mwkAmount,
+            bank: this.bank,
+            mwkAmount: this.mwkAmount.toString(),
             bankBranch: this.bankBranch,
             accountNumber: this.accountNumber,
             accountName: this.accountName,
-            proof: this.filevalue,
+            proof: this.proof,
           },
           {
             headers: headers,
@@ -186,10 +221,72 @@ export default {
         )
         .then((response) => {
           console.log(response);
+          this.$router.push('/sale/thank-you')
+          //console.log(response);
         })
         .catch((error) => {
           console.log(error);
         });
+    },
+
+      saleETH() {
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + this.access_token,
+      };
+      this.$axios
+        .post(
+          "/wallet/bank-transfer-sell-ethereum",
+          {
+            bank: this.bank,
+            mwkAmount: this.mwkAmount.toString(),
+            bankBranch: this.bankBranch,
+            accountNumber: this.accountNumber,
+            accountName: this.accountName,
+            proof: this.proof,
+          },
+          {
+            headers: headers,
+          }
+        )
+        .then((response) => {
+          console.log(response);
+          this.$router.push('/sale/thank-you')
+          //console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+
+      saleBCH() {
+      // const headers = {
+      //   "Content-Type": "application/json",
+      //   Authorization: "Bearer " + this.access_token,
+      // };
+      // this.$axios
+      //   .post(
+      //     "/wallet/momo-transfer-sell-bitcoin",
+      //     {
+      //       ref: this.ref,
+      //       momoType: this.momoType,
+      //       mwkAmount: this.mwkAmount.toString(),
+      //       btcAmount: this.cryptoValue,
+      //       phoneNumber: this.phoneNumber,
+      //       proof: this.proof,
+      //     },
+      //     {
+      //       headers: headers,
+      //     }
+      //   )
+      //   .then((response) => {
+      //     console.log(response);
+      //     this.$router.push('/sale/thank-you')
+      //     //console.log(response);
+      //   })
+      //   .catch((error) => {
+      //     console.log(error);
+      //   });
     },
   },
 };
