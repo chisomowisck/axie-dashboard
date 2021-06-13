@@ -55,36 +55,54 @@ const routes = [
     path: "/transactions",
     name: "Transactions",
     component: Transactions,
+    meta: {
+      requiresAuth: true,
+  }
   },
 
   {
     path: "/buy",
     name: "Buy",
     component: Buy,
+    meta: {
+      requiresAuth: true,
+  }
   },
 
   {
     path: "/buy/thank-you",
     name: "ThanksBuy",
     component: ThanksBuy,
+    meta: {
+      requiresAuth: true,
+  }
   },
 
   {
     path: "/buy/bank",
     name: "BankBuy",
     component: BankBuy,
+        meta: {
+            requiresAuth: true,
+        }
   },
 
   {
     path: "/buy/airtel-money",
     name: "AirtelMoneyBuy",
     component: AirtelMoneyBuy,
+        meta: {
+            requiresAuth: true,
+        }
   },
 
   {
     path: "/buy/tnm-mpamba",
     name: "TnmMpambaBuy",
     component: TnmMpambaBuy,
+        meta: {
+            requiresAuth: true,
+        }
   },
   
 
@@ -92,27 +110,42 @@ const routes = [
     path: "/sale",
     name: "Sale",
     component: Sale,
+        meta: {
+            requiresAuth: true,
+        }
   },
 
   {
     path: "/sale/thank-you",
     name: "ThanksSale",
     component: ThanksSale,
+        meta: {
+            requiresAuth: true,
+        }
   },
   {
     path: "/sale/airtel-money",
     name: "AirtelMoneySale",
     component: AirtelMoneySale,
+        meta: {
+            requiresAuth: true,
+        }
   },
   {
     path: "/sale/tnm-mpamba",
     name: "TnmMpambaSale",
     component: TnmMpambaSale,
+        meta: {
+            requiresAuth: true,
+        }
   },
   {
     path: "/sale/bank",
     name: "BankSale",
     component: BankSale,
+        meta: {
+            requiresAuth: true,
+        }
   },
   {
     path: "/demo",

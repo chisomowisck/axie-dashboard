@@ -32,17 +32,17 @@
           </router-link>
         </li>
         <li :class="active === 5 && 'active'">
-          <router-link to="/accounts" :class="active === 5 && 'active'">
+          <router-link to="#" :class="active === 5 && 'active'">
             <span><i class="mdi mdi-account"></i></span>
             <span class="nav-text">Profile</span>
           </router-link>
         </li>
-        <li :class="active === 6 && 'active'">
+        <!-- <li :class="active === 6 && 'active'">
           <router-link to="/settings" :class="active === 6 && 'active'">
             <span><i class="mdi mdi-settings"></i></span>
             <span class="nav-text">Setting</span>
           </router-link>
-        </li>
+        </li> -->
       </ul>
     </div>
 

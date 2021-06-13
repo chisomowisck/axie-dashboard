@@ -462,21 +462,21 @@
                                 <a
                                 v-if="currency == 'BTC'"
                                   
-                                  class="btn btn-success btn-block"
+                                  class="btn btn-success text-white btn-block"
                                   @click="buyBitcoin"
                                   >Buy Now</a
                                 >
                                  <a
                                  v-if="currency == 'ETH'"
                                   
-                                  class="btn btn-success btn-block"
+                                  class="btn btn-success text-white btn-block"
                                   @click="buyEthereum"
                                   >Buy Now</a
                                 >
                                  <a
                                  v-if="currency == 'BCH'"
                                   
-                                  class="btn btn-success btn-block"
+                                  class="btn btn-success text-white btn-block"
                                   @click="buyBitcoinCash"
                                   >Buy Now</a
                                 >
@@ -814,23 +814,23 @@
                                 <a
                                 v-if="currency == 'BTC'"
                                   
-                                  class="btn btn-warning btn-block"
+                                  class="btn btn-warning text-white btn-block"
                                   @click="saleBitcoin"
                                   >Buy Now</a
                                 >
                                  <a
                                  v-if="currency == 'ETH'"
                                   
-                                  class="btn btn-warning btn-block"
+                                  class="btn btn-warning text-white btn-block"
                                   @click="saleEthereum"
                                   >Buy Now</a
                                 >
                                  <a
                                  v-if="currency == 'BCH'"
                                   
-                                  class="btn btn-warning btn-block"
+                                  class="btn btn-warning text-white btn-block"
                                   @click="saleBitcoinCash"
-                                  >Buy Now</a
+                                  >Sale Now</a
                                 >
                              
                             </ValidationObserver>
