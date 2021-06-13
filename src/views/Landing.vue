@@ -4,10 +4,9 @@
     <div>
       <Intro />
       <!-- <Example /> -->
-      <Market />
+      <!-- <Market />
       <Features />
-      <Join />
-      <Say />
+      <Say /> -->
       <Question />
     </div>
     <Footer />
@@ -20,10 +19,9 @@
 // @ is an alias to /src
 import Nav from "../components/landing/Nav";
 import Intro from "../components/landing/Intro";
-import Market from "../components/landing/Market";
-import Features from "../components/landing/Features";
-import Join from "../components/landing/Join";
-import Say from "../components/landing/Say";
+// import Market from "../components/landing/Market";
+// import Features from "../components/landing/Features";
+// import Say from "../components/landing/Say";
 import Question from "../components/landing/Question";
 import Footer from "../components/landing/Footer";
 import CookieAlert from "../components/landing/CookieAlert";
@@ -34,10 +32,9 @@ export default {
   components: {
     Nav,
     Intro,
-    Market,
-    Features,
-    Join,
-    Say,
+    // Market,
+    // Features,
+    // Say,
     Question,
     Footer,
     CookieAlert,

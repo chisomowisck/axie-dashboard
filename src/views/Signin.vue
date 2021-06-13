@@ -5,7 +5,10 @@
         <div class="col-xl-5 col-md-6">
           <div class="mini-logo text-center my-4">
             <router-link to="landing"
-              ><img src="https://khodo.africa/wp-content/uploads/2021/02/Asset-3@3x.png" alt="" style="height:90px; width:auto"
+              ><img
+                src="https://khodo.africa/wp-content/uploads/2021/02/Asset-3@3x.png"
+                alt=""
+                style="height: 90px; width: auto"
             /></router-link>
           </div>
           <div class="auth-form card">
@@ -13,70 +16,69 @@
               <h4 class="card-title">Sign in</h4>
             </div>
             <div class="card-body">
-              <ValidationObserver v-slot="{ passes }">
-                <form
-                  method="post"
-                  name="myform"
-                  class="signin_validate"
-                  novalidate="novalidate"
-                  @submit.prevent="passes(formSubmit)"
+              <b-alert
+                variant="danger"
+                dismissible
+                fade
+                :show="verifyStatus == false"
+                @dismissed="verifyStatus = null"
+              >
+                {{ verifyMsg }}
+              </b-alert>
+              <ValidationObserver>
+                <ValidationProvider
+                  rules="required|email"
+                  v-slot="{ errors }"
+                  name="method"
+                  class="form-group"
+                  tag="div"
                 >
-                  <ValidationProvider
-                    rules="required|email"
-                    v-slot="{ errors }"
-                    name="method"
-                    class="form-group"
-                    tag="div"
-                  >
-                    <label>Email</label>
-                    <input
-                      type="email"
-                      class="form-control error"
-                      placeholder="hello@example.com"
-                      name="email"
-                      v-model="email"
-                      aria-invalid="true"
-                    />
-                    <label class="error" for="email">{{ errors[0] }}</label>
-                  </ValidationProvider>
-                  <ValidationProvider
-                    rules="passwordFieldName|verify_password"
-                    v-slot="{ errors }"
-                    name="password"
-                    class="form-group"
-                    tag="div"
-                  >
-                    <label>Password</label>
-                    <input
-                      type="password"
-                      class="form-control error"
-                      placeholder="Password"
-                      name="password"
-                      v-model="password"
-                      aria-invalid="true"
-                    />
-                    <label class="error" for="password">{{ errors[0] }}</label>
-                  </ValidationProvider>
-                  <div
-                    class="form-row d-flex justify-content-between mt-4 mb-2"
-                  >
-                    <div class="form-group mb-0">
-                      <label class="toggle">
-                        <input class="toggle-checkbox" type="checkbox" />
-                        <div class="toggle-switch"></div>
-                        <span class="toggle-label">Remember me</span>
-                      </label>
-                    </div>
-                    <div class="form-group mb-0">
-                      <router-link to="reset">Forgot Password?</router-link>
-                    </div>
+                  <label>Email</label>
+                  <input
+                    type="email"
+                    class="form-control error"
+                    v-model="mobileOrEmail"
+                    aria-invalid="true"
+                  />
+                  <label class="error" for="email">{{ errors[0] }}</label>
+                </ValidationProvider>
+                <ValidationProvider
+                  rules="passwordFieldName|verify_password"
+                  v-slot="{ errors }"
+                  name="password"
+                  class="form-group"
+                  tag="div"
+                >
+                  <label>Password</label>
+                  <input
+                    type="password"
+                    class="form-control error"
+                    v-model="password"
+                    aria-invalid="true"
+                  />
+                  <label class="error" for="password">{{ errors[0] }}</label>
+                </ValidationProvider>
+
+                <div class="form-row d-flex justify-content-between mt-4 mb-2">
+                  <div class="form-group mb-0">
+                    <label class="toggle">
+                      <input class="toggle-checkbox" type="checkbox" />
+                      <div class="toggle-switch"></div>
+                      <span class="toggle-label">Remember me</span>
+                    </label>
                   </div>
-                  <div class="text-center">
-                    <button type="submit" class="btn btn-success btn-block">
-                      Sign in
-                    </button>
+                  <div class="form-group mb-0">
+                    <router-link to="reset">Forgot Password?</router-link>
                   </div>
-                </form>
+                </div>
+                <div class="text-center">
+                  <button
+                    v-b-modal.modal-prevent-closing
+                    class="bt btn-primary btn-block"
+                  >
+                    Sign in
+                  </button>
+                </div>
               </ValidationObserver>
               <div class="new-account mt-3">
                 <p>
@@ -91,6 +93,32 @@
         </div>
       </div>
     </div>
+
+    <b-modal
+      id="modal-prevent-closing"
+      ref="modal"
+      title="Input your 4-Digit PIN"
+      @show="resetModal"
+      @hidden="resetModal"
+      @ok="handleOk"
+    >
+      <form ref="form" @submit.stop.prevent="handleSubmit">
+        <b-form-group
+          label="PIN"
+          label-for="name-input"
+          invalid-feedback="PIN is required"
+          :state="nameState"
+        >
+          <b-form-input
+            id="name-input"
+            type="number"
+            v-model="pin"
+            :state="nameState"
+            required
+          ></b-form-input>
+        </b-form-group>
+      </form>
+    </b-modal>
   </div>
 </template>
 
@@ -101,17 +129,81 @@ export default {
   components: {
     ValidationObserver,
     ValidationProvider,
+    
   },
   data() {
     return {
-      email: "",
-      password: "",
-      checkbox: "",
+      mobileOrEmail: null,
+      password: null,
+      pin: null,
+      name: "",
+      nameState: null,
+      submittedNames: [],
+      verifyStatus: null,
+    verifyMsg: null,
+    showDismissibleAlert: true,
     };
   },
   methods: {
+    signingIn() {},
+
     formSubmit() {
-      this.$router.push("/otp-1");
+      this.internet = false;
+      this.dialog = true;
+      this.$store
+        .dispatch("retrieveToken", {
+          mobileOrEmail: this.mobileOrEmail,
+          password: this.password,
+          pin: this.pin,
+        })
+        .then((response) => {
+          this.$router.push("/index");
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    checkFormValidity() {
+      const valid = this.$refs.form.checkValidity();
+      this.nameState = valid;
+      return valid;
+    },
+    resetModal() {
+      this.name = "";
+      this.nameState = null;
+    },
+    handleOk(bvModalEvt) {
+      // Prevent modal from closing
+      bvModalEvt.preventDefault();
+      // Trigger submit handler
+      this.handleSubmit();
+    },
+    handleSubmit() {
+      // Exit when the form isn't valid
+      if (!this.checkFormValidity()) {
+        return;
+      }
+      // Push the name to submitted names
+      this.$store
+        .dispatch("retrieveToken", {
+          mobileOrEmail: this.mobileOrEmail,
+          password: this.password,
+          pin: this.pin,
+        })
+        .then((response) => {
+          this.$router.push("/index");
+          console.log(response);
+        })
+        .catch((error) => {
+           this.verifyStatus = false;
+            this.verifyMsg = "Unable to Login, either Email, Password or PIN is incorect";
+            console.log(error);
+        });
+      // Hide the modal manually
+      this.$nextTick(() => {
+        this.$bvModal.hide("modal-prevent-closing");
+      });
     },
   },
 };

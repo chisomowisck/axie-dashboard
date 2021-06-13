@@ -13,24 +13,36 @@
             <span class="nav-text">Home</span>
           </router-link>
         </li>
-        <li :class="active === 2 && 'active'">
-          <router-link to="buy-sell" :class="active === 2 && 'active'">
-            <span><i class="mdi mdi-repeat"></i></span>
-            <span class="nav-text">Exchange</span>
+         <li :class="active === 2 && 'active'">
+          <router-link to="/buy" :class="active === 2 && 'active'">
+            <span><i class="mdi mdi-arrow-up-circle"></i></span>
+            <span class="nav-text">Buy</span>
           </router-link>
         </li>
-        <li :class="active === 3 && 'active'">
-          <router-link to="accounts" :class="active === 3 && 'active'">
+         <li :class="active === 3 && 'active'">
+          <router-link to="/sale" :class="active === 3 && 'active'">
+            <span><i class="mdi mdi-arrow-down-circle"></i></span>
+            <span class="nav-text">Sale</span>
+          </router-link>
+        </li>
+         <li :class="active === 4 && 'active'">
+          <router-link to="/transactions" :class="active === 4 && 'active'">
+            <span><i class="mdi mdi-swap-horizontal-circle"></i></span>
+            <span class="nav-text">Transactions</span>
+          </router-link>
+        </li>
+        <li :class="active === 5 && 'active'">
+          <router-link to="#" :class="active === 5 && 'active'">
             <span><i class="mdi mdi-account"></i></span>
-            <span class="nav-text">Account</span>
+            <span class="nav-text">Profile</span>
           </router-link>
         </li>
-        <li :class="active === 4 && 'active'">
-          <router-link to="settings" :class="active === 4 && 'active'">
+        <!-- <li :class="active === 6 && 'active'">
+          <router-link to="/settings" :class="active === 6 && 'active'">
             <span><i class="mdi mdi-settings"></i></span>
             <span class="nav-text">Setting</span>
           </router-link>
-        </li>
+        </li> -->
       </ul>
     </div>
 

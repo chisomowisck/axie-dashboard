@@ -5,7 +5,7 @@
         <div class="col-xl-6 col-md-6">
           <div class="footer-link text-left">
             <a href="#" class="m_logo"
-              ><img src="../../assets/images/logo.png" alt=""
+              ><img src="https://khodo.africa/wp-content/uploads/2021/02/Asset-3@3x.png" alt=""
             /></a>
             <router-link to="about">About</router-link>
             <router-link to="privacy-policy">Privacy Policy</router-link>

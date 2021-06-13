@@ -6,7 +6,7 @@
           <div class="page_title-content">
             <p>
               Welcome Back,
-              <span> Chisomo Wisck</span>
+              <span> {{fullName}}</span>
             </p>
           </div>
         </div>
@@ -18,5 +18,10 @@
 <script>
 export default {
   name: "PageTitle",
+  data() {
+    return {
+       fullName: localStorage.getItem("fullName") || null,
+    };
+  },
 };
 </script>

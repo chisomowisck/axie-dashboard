@@ -14,9 +14,7 @@
           <div class="info-list">
             <h4 class="mb-3">Address</h4>
             <ul>
-              <li><i class="fa fa-map-marker"></i> California, USA</li>
-              <li><i class="fa fa-phone"></i> (+880) 1243 665566</li>
-              <li><i class="fa fa-envelope"></i> hello@example.com</li>
+              <li><i class="fa fa-envelope"></i> admin@khodo.com</li>
             </ul>
           </div>
         </div>

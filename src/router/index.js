@@ -28,10 +28,125 @@ import VerifyStep3 from "../views/VerifyStep3";
 import VerifyStep4 from "../views/VerifyStep4";
 import VerifyStep5 from "../views/VerifyStep5";
 import VerifyStep6 from "../views/VerifyStep6";
+import Transactions from "../views/Transactions/Index";
+
+import Sale from "../views/Sale/Index";
+import AirtelMoneySale from "../views/Sale/AirtelMoney";
+import TnmMpambaSale from "../views/Sale/Mpamba";
+import ThanksSale from "../views/Sale/Thanks";
+import BankSale from "../views/Sale/Bank";
+
+import Buy from "../views/Buy/Index";
+import BankBuy from "../views/Buy/Bank";
+import AirtelMoneyBuy from "../views/Buy/AirtelMoney";
+import TnmMpambaBuy from "../views/Buy/Mpamba";
+import ThanksBuy from "../views/Buy/Thanks";
 
 Vue.use(VueRouter);
 
 const routes = [
+
+  {
+    path: "/",
+    name: "Landing",
+    component: Landing,
+  },
+  {
+    path: "/transactions",
+    name: "Transactions",
+    component: Transactions,
+    meta: {
+      requiresAuth: true,
+  }
+  },
+
+  {
+    path: "/buy",
+    name: "Buy",
+    component: Buy,
+    meta: {
+      requiresAuth: true,
+  }
+  },
+
+  {
+    path: "/buy/thank-you",
+    name: "ThanksBuy",
+    component: ThanksBuy,
+    meta: {
+      requiresAuth: true,
+  }
+  },
+
+  {
+    path: "/buy/bank",
+    name: "BankBuy",
+    component: BankBuy,
+        meta: {
+            requiresAuth: true,
+        }
+  },
+
+  {
+    path: "/buy/airtel-money",
+    name: "AirtelMoneyBuy",
+    component: AirtelMoneyBuy,
+        meta: {
+            requiresAuth: true,
+        }
+  },
+
+  {
+    path: "/buy/tnm-mpamba",
+    name: "TnmMpambaBuy",
+    component: TnmMpambaBuy,
+        meta: {
+            requiresAuth: true,
+        }
+  },
+  
+
+  {
+    path: "/sale",
+    name: "Sale",
+    component: Sale,
+        meta: {
+            requiresAuth: true,
+        }
+  },
+
+  {
+    path: "/sale/thank-you",
+    name: "ThanksSale",
+    component: ThanksSale,
+        meta: {
+            requiresAuth: true,
+        }
+  },
+  {
+    path: "/sale/airtel-money",
+    name: "AirtelMoneySale",
+    component: AirtelMoneySale,
+        meta: {
+            requiresAuth: true,
+        }
+  },
+  {
+    path: "/sale/tnm-mpamba",
+    name: "TnmMpambaSale",
+    component: TnmMpambaSale,
+        meta: {
+            requiresAuth: true,
+        }
+  },
+  {
+    path: "/sale/bank",
+    name: "BankSale",
+    component: BankSale,
+        meta: {
+            requiresAuth: true,
+        }
+  },
   {
     path: "/demo",
     name: "Demo",
@@ -41,6 +156,9 @@ const routes = [
     path: "/index",
     name: "Index",
     component: Index,
+     meta: {
+            requiresAuth: true,
+        }
   },
   {
     path: "/buy-sell",
@@ -132,11 +250,7 @@ const routes = [
     name: "Settings",
     component: Settings,
   },
-  {
-    path: "/",
-    name: "Landing",
-    component: Landing,
-  },
+  
   {
     path: "/about",
     name: "About",

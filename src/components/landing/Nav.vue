@@ -70,10 +70,13 @@
             <div class="dashboard_log">
               <div class="d-flex align-items-center">
                 <div class="header_auth">
-                  <router-link to="/signin" style="background-color: #5052D9" class="btn btn-primary"
+                  <router-link v-if="access_token == null" to="/signin" style="background-color: #5052D9" class="btn btn-primary"
                     >Sign In</router-link
                   >
-                  <router-link to="/signup" style="color: #5052D9" class="btn btn-outline-primary"
+                  <router-link v-if="access_token != null" to="/index" style="background-color: #5052D9" class="btn btn-primary"
+                    >Dashboard</router-link
+                  >
+                  <router-link v-if="access_token == null" to="/signup" style="color: #5052D9" class="btn btn-outline-primary"
                     >Sign Up</router-link
                   >
                 </div>
@@ -91,6 +94,7 @@ export default {
   data() {
     return {
       active: "home",
+      access_token: localStorage.getItem("access_token") || null,
     };
   },
 };
