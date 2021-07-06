@@ -55,16 +55,7 @@
                   </div>
                 </div>
               </div>
-              <div class="form-group">
-                <label>Email</label>
-                <input
-                  type="email"
-                  class="form-control"
-                  v-model="email"
-                  required
-                />
-              </div>
-              <b-alert
+               <b-alert
                 variant="danger"
                 dismissible
                 fade
@@ -83,26 +74,27 @@
               >
                 {{ verifyMsg }}
               </b-alert>
-              <div class="row">
-                <div class="col-md-12">
-                  <label style="color: #000000">Input Verification Code</label>
-                  <div class="input-group">
-                    <div class="input-group-prepend">
-                      <button @click="verifyEmail" class="input-group-text">
-                        Send OTP
-                      </button>
-                    </div>
-                    <input
-                      type="text"
-                      class="form-control"
-                      placeholder="OTP Code here"
-                      v-model="otp"
-                      required
-                    />
-                  </div>
-                </div>
+              <div class="form-group">
+                <label>Email</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  v-model="email"
+                  required
+                />
               </div>
+             
+
               <br />
+                <div class="form-group">
+                <label>4-Digit PIN</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  v-model="pin"
+                  required
+                />
+              </div>
               <div class="form-group">
                 <label>Password</label>
                 <input
@@ -113,11 +105,13 @@
                 />
               </div>
               <div class="text-center mt-4">
-                <button
-                  v-b-modal.modal-prevent-closing
-                  class="bt btn-primary btn-block"
-                >
-                  Sign up
+                <button class="bt btn-primary btn-block" @click="verifyEmail">
+                  <template v-if="loading">
+                    <b-spinner class="mr-2"></b-spinner>
+                    Verifying Email Address...
+                  </template>
+
+                  <span v-if="!loading">Sign up</span>
                 </button>
               </div>
               <div class="new-account mt-3">
@@ -179,11 +173,46 @@ export default {
       verifyMsg: null,
       verifyMsg2: null,
       showDismissibleAlert: true,
-      nameState: '',
+      nameState: "",
+      loading: false,
     };
   },
   methods: {
+    signUp() {
+      this.$store.dispatch("setSignUp", {
+        fullName: this.fullName,
+        email: this.email,
+        mobile: this.mobile,
+        country: this.country,
+        city: this.city,
+        password: this.password,
+        pin: this.pin,
+      });
+
+      this.$router.push("/otp-2");
+
+      // this.$store.dispatch("setSignUp", {
+      //     fullName: this.fullName,
+      //     email: this.email,
+      //     mobile: this.mobile,
+      //     country: this.country,
+      //     city: this.city,
+      //     password: this.password,
+      //     pin: this.pin,
+      //     // otp: this.otp,
+      //   })
+    },
     verifyEmail() {
+      this.$store.dispatch("setSignUp", {
+        fullName: this.fullName,
+        email: this.email,
+        mobile: this.mobile,
+        country: this.country,
+        city: this.city,
+        password: this.password,
+        pin: this.pin,
+      });
+      this.loading = true;
       this.$axios
         .post("/auth/user/verify-email", {
           email: this.email,
@@ -192,12 +221,15 @@ export default {
           function (response) {
             this.verifyStatus = response.data.success;
             this.verifyMsg = response.data.message;
-            console.log(response);
+            this.loading = false;
+            this.$router.push("/otp-2");
+            // console.log(response);
           }.bind(this)
         )
         .catch((error) => {
           this.verifyStatus = false;
           this.verifyMsg = "Invalid Email or User Already Exists";
+          this.loading = false;
           console.log(error);
         });
     },

@@ -126,816 +126,165 @@
             </div>
           </div>
           <div class="container">
-            <div class="row">
-              <div class="col-xl-6 col-lg-12 col-md-12">
-                <div class="card">
-                  <div class="card-body">
-                    <div class="buy-sell-widget">
-                      <b-tabs class="tab-content tab-content-default">
-                        <b-tab
-                          title="Buy"
-                          class="tab-pane fade"
-                          id="buy"
-                          v-on:click="buyTabClick"
-                          role="tabpanel"
-                        >
-                          <div class="buy-sell-widget px-2">
-                            <ValidationObserver >
-                                <ValidationProvider
-                                  rules="required"
-                                  v-slot="{ errors }"
-                                  name="currency"
-                                  class="form-group"
-                                >
-                                  <label class="mr-sm-2">Currency</label>
-                                  <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                      <label class="input-group-text"
-                                        ><i class="cc BTC-alt"></i
-                                      ></label>
-                                    </div>
-                                    <select
-                                      v-model="currency"
-                                      name="currency"
-                                      class="form-control"
-                                    >
-                                      <option value="BTC" selected>
-                                        Bitcoin
-                                      </option>
-                                      <option value="ETH">Ethereum</option>
-                                      <option value="BCH">Bitcoin Cash</option>
-                                    </select>
-                                    <label class="error" for="currency">{{
-                                      errors[0]
-                                    }}</label>
-                                  </div>
-                                </ValidationProvider>
-
-                                <ValidationProvider
-                                  rules="required"
-                                  v-slot="{ errors }"
-                                  name="method"
-                                  class="form-group"
-                                >
-                                  <label class="mr-sm-2">Payment Method</label>
-                                  <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                      <label class="input-group-text"
-                                        ><i class="fa fa-bank"></i
-                                      ></label>
-                                    </div>
-                                    <select
-                                      class="form-control"
-                                      v-model="method"
-                                      name="method"
-                                    >
-                                      <option value="">Select</option>
-                                      <option value="Airtel Money">
-                                        Airtel Money
-                                      </option>
-                                      <option value="Mpamba">Mpamba</option>
-                                      <option value="Bank">Bank</option>
-                                    </select>
-                                    <label class="error" for="method">{{
-                                      errors[0]
-                                    }}</label>
-                                  </div>
-                                </ValidationProvider>
-                                <!-- BTC Buy Fields Start -->
-                                <div v-if="currency == 'BTC'">
-                                  <div class="form-group">
-                                  <label class="mr-sm-2 mb-1"
-                                    >Enter your amount</label
-                                  >
-                                  <div class="row">
-                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                      <a
-                                        @click="changeToMwkBTCBuy"
-                                        class="
-                                          btn
-                                          text-white
-                                          btn-success btn-sm
-                                        "
-                                        >In MWK</a
-                                      >
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                      <a
-                                        @click="changeToBTCBuy"
-                                        class="
-                                          btn
-                                          text-white
-                                          btn-primary btn-sm
-                                        "
-                                        >In BTC</a
-                                      >
-                                    </div>
-                                  </div>
-                                </div>
-                                  <div v-if="btc_calc_status == 'mwk_btc'">
-                                    <div class="row mt-0">
-                                      <div class="col-md-6 mb-2">
-                                        <div class="input-group">
-                                          <div class="input-group-prepend">
-                                            <span class="input-group-text"
-                                              >MWK</span
-                                            >
-                                          </div>
-                                          <input
-                                            type="text"
-                                            class="form-control"
-                                            placeholder="0"
-                                            v-model="btc_mwk"
-                                          />
-                                        </div>
-                                      </div>
-                                      <div class="col-md-6 mb-2">
-                                        <div class="input-group">
-                                          <label class="text-dark pt-2"
-                                            >For: {{ btcConvBuyMWK }} BTC</label
-                                          >
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div v-if="btc_calc_status == 'btc'">
-                                    <div class="row mt-0">
-                                      <div class="col-md-6 pb-2">
-                                        <div class="input-group">
-                                          <div class="input-group-prepend">
-                                            <span class="input-group-text"
-                                              >BTC</span
-                                            >
-                                          </div>
-                                          <input
-                                            type="text"
-                                            class="form-control"
-                                            placeholder="0"
-                                            v-model="btc"
-                                          />
-                                        </div>
-                                      </div>
-                                      <div class="col-md-6 mb-2">
-                                        <div class="input-group">
-                                          <label class="text-dark pt-2"
-                                            >For: MWK {{ btcConvBuy }}</label
-                                          >
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <br />
-                                </div>
-                                <!-- BTC Buy Fields End -->
-                                <!-- ETH Buy Fields Start -->
-                                <div v-if="currency == 'ETH'">
-                                 <div class="form-group">
-                                  <label class="mr-sm-2 mb-1"
-                                    >Enter your amount</label
-                                  >
-                                  <div class="row">
-                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                      <a
-                                        @click="changeToMwkETHBuy"
-                                        class="
-                                          btn
-                                          text-white
-                                          btn-success btn-sm
-                                        "
-                                        >In MWK</a
-                                      >
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                      <a
-                                        @click="changeToETHBuy"
-                                        class="
-                                          btn
-                                          text-white
-                                          btn-primary btn-sm
-                                        "
-                                        >In ETH</a
-                                      >
-                                    </div>
-                                  </div>
-                                </div>
-                                  <div v-if="eth_calc_status == 'mwk_eth'">
-                                    <div class="row mt-0">
-                                      <div class="col-md-6 mb-2">
-                                        <div class="input-group">
-                                          <div class="input-group-prepend">
-                                            <span class="input-group-text"
-                                              >MWK</span
-                                            >
-                                          </div>
-                                          <input
-                                            type="text"
-                                            class="form-control"
-                                            placeholder="0"
-                                            v-model="eth_mwk"
-                                          />
-                                        </div>
-                                      </div>
-                                      <div class="col-md-6 mb-2">
-                                        <div class="input-group">
-                                          <label class="text-dark pt-2"
-                                            >For: {{ ethConvBuyMWK }} ETH</label
-                                          >
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div v-if="eth_calc_status == 'eth'">
-                                    <div class="row mt-0">
-                                      <div class="col-md-6 pb-2">
-                                        <div class="input-group">
-                                          <div class="input-group-prepend">
-                                            <span class="input-group-text"
-                                              >ETH</span
-                                            >
-                                          </div>
-                                          <input
-                                            type="text"
-                                            class="form-control"
-                                            placeholder="0"
-                                            v-model="eth"
-                                          />
-                                        </div>
-                                      </div>
-                                      <div class="col-md-6 mb-2">
-                                        <div class="input-group">
-                                          <label class="text-dark pt-2"
-                                            >For: MWK {{ ethConvBuy }}</label
-                                          >
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <br />
-                                </div>
-                                <!-- ETH Buy Fields End -->
-                                <!-- BCH Buy Fields Start -->
-                                <div v-if="currency == 'BCH'">
-                                 <div class="form-group">
-                                  <label class="mr-sm-2 mb-1"
-                                    >Enter your amount</label
-                                  >
-                                  <div class="row">
-                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                      <a
-                                        @click="changeToMwkBCHBuy"
-                                        class="
-                                          btn
-                                          text-white
-                                          btn-success btn-sm
-                                        "
-                                        >In MWK</a
-                                      >
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                      <a
-                                        @click="changeToBCHBuy"
-                                        class="
-                                          btn
-                                          text-white
-                                          btn-primary btn-sm
-                                        "
-                                        >In BCH</a
-                                      >
-                                    </div>
-                                  </div>
-                                </div>
-                                  <div v-if="bch_calc_status == 'mwk_bch'">
-                                    <div class="row mt-0">
-                                      <div class="col-md-6 mb-2">
-                                        <div class="input-group">
-                                          <div class="input-group-prepend">
-                                            <span class="input-group-text"
-                                              >MWK</span
-                                            >
-                                          </div>
-                                          <input
-                                            type="text"
-                                            class="form-control"
-                                            placeholder="0"
-                                            v-model="bch_mwk"
-                                          />
-                                        </div>
-                                      </div>
-                                      <div class="col-md-6 mb-2">
-                                        <div class="input-group">
-                                          <label class="text-dark pt-2"
-                                            >For: {{ bchConvBuyMWK }} BCH</label
-                                          >
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div v-if="bch_calc_status == 'bch'">
-                                    <div class="row mt-0">
-                                      <div class="col-md-6 pb-2">
-                                        <div class="input-group">
-                                          <div class="input-group-prepend">
-                                            <span class="input-group-text"
-                                              >BCH</span
-                                            >
-                                          </div>
-                                          <input
-                                            type="text"
-                                            class="form-control"
-                                            placeholder="0"
-                                            v-model="bch"
-                                          />
-                                        </div>
-                                      </div>
-                                      <div class="col-md-6 mb-2">
-                                        <div class="input-group">
-                                          <label class="text-dark pt-2"
-                                            >For: MWK {{ bchConvBuy }}</label
-                                          >
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <br />
-                                </div>
-                                <!-- BCH Buy Fields END -->
-                                <a
-                                v-if="currency == 'BTC'"
-                                  
-                                  class="btn btn-success text-white btn-block"
-                                  @click="buyBitcoin"
-                                  >Buy Now</a
-                                >
-                                 <a
-                                 v-if="currency == 'ETH'"
-                                  
-                                  class="btn btn-success text-white btn-block"
-                                  @click="buyEthereum"
-                                  >Buy Now</a
-                                >
-                                 <a
-                                 v-if="currency == 'BCH'"
-                                  
-                                  class="btn btn-success text-white btn-block"
-                                  @click="buyBitcoinCash"
-                                  >Buy Now</a
-                                >
-                             
-                            </ValidationObserver>
-                          </div>
-                        </b-tab>
-                        <b-tab
-                          title="Sell"
-                          class="tab-pane fade"
-                          id="sell"
-                          v-on:click="sellTabClick"
-                        >
-                          <div class="buy-sell-widget px-2">
-                            <ValidationObserver >
-                                <ValidationProvider
-                                  rules="required"
-                                  v-slot="{ errors }"
-                                  name="currency"
-                                  class="form-group"
-                                >
-                                  <label class="mr-sm-2">Currency</label>
-                                  <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                      <label class="input-group-text"
-                                        ><i class="cc BTC-alt"></i
-                                      ></label>
-                                    </div>
-                                    <select
-                                      v-model="currency"
-                                      name="currency"
-                                      class="form-control"
-                                    >
-                                      <option value="BTC" selected>
-                                        Bitcoin
-                                      </option>
-                                      <option value="ETH">Ethereum</option>
-                                      <option value="BCH">Bitcoin Cash</option>
-                                    </select>
-                                    <label class="error" for="currency">{{
-                                      errors[0]
-                                    }}</label>
-                                  </div>
-                                </ValidationProvider>
-
-                                <ValidationProvider
-                                  rules="required"
-                                  v-slot="{ errors }"
-                                  name="method"
-                                  class="form-group"
-                                >
-                                  <label class="mr-sm-2">Payment Method</label>
-                                  <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                      <label class="input-group-text"
-                                        ><i class="fa fa-bank"></i
-                                      ></label>
-                                    </div>
-                                    <select
-                                      class="form-control"
-                                      v-model="method"
-                                      name="method"
-                                    >
-                                      <option value="">Select</option>
-                                      <option value="Airtel Money">
-                                        Airtel Money
-                                      </option>
-                                      <option value="Mpamba">Mpamba</option>
-                                      <option value="Bank">Bank</option>
-                                    </select>
-                                    <label class="error" for="method">{{
-                                      errors[0]
-                                    }}</label>
-                                  </div>
-                                </ValidationProvider>
-                         
-                                <!-- BTC Sale Fields Start -->
-                                <div v-if="currency == 'BTC'">
-                                   <div class="form-group">
-                                  <label class="mr-sm-2 mb-1"
-                                    >Enter your amount</label
-                                  >
-                                  <div class="row">
-                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                      <a
-                                        @click="changeToMwkBTCBuy"
-                                        class="
-                                          btn
-                                          text-white
-                                          btn-success btn-sm
-                                        "
-                                        >In MWK</a
-                                      >
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                      <a
-                                        @click="changeToBTCSale"
-                                        class="
-                                          btn
-                                          text-white
-                                          btn-primary btn-sm
-                                        "
-                                        >In BTC</a
-                                      >
-                                    </div>
-                                  </div>
-                                </div>
-                                  <div v-if="btc_calc_status == 'mwk_btc'">
-                                    <div class="row mt-0">
-                                      <div class="col-md-6 mb-2">
-                                        <div class="input-group">
-                                          <div class="input-group-prepend">
-                                            <span class="input-group-text"
-                                              >MWK</span
-                                            >
-                                          </div>
-                                          <input
-                                            type="text"
-                                            class="form-control"
-                                            placeholder="0"
-                                            v-model="btc_mwk"
-                                          />
-                                        </div>
-                                      </div>
-                                      <div class="col-md-6 mb-2">
-                                        <div class="input-group">
-                                          <label class="text-dark pt-2"
-                                            >For: {{ btcConvSaleMWK }} BTC</label
-                                          >
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div v-if="btc_calc_status == 'btc'">
-                                    <div class="row mt-0">
-                                      <div class="col-md-6 pb-2">
-                                        <div class="input-group">
-                                          <div class="input-group-prepend">
-                                            <span class="input-group-text"
-                                              >BTC</span
-                                            >
-                                          </div>
-                                          <input
-                                            type="text"
-                                            class="form-control"
-                                            placeholder="0"
-                                            v-model="btc"
-                                          />
-                                        </div>
-                                      </div>
-                                      <div class="col-md-6 mb-2">
-                                        <div class="input-group">
-                                          <label class="text-dark pt-2"
-                                            >For: MWK {{ btcConvSale }}</label
-                                          >
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <br />
-                                </div>
-                                <!-- BTC Sale Fields End -->
-                                <!-- ETH Sale Fields Start -->
-                                <div v-if="currency == 'ETH'">
-                                   <div class="form-group">
-                                  <label class="mr-sm-2 mb-1"
-                                    >Enter your amount</label
-                                  >
-                                  <div class="row">
-                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                      <a
-                                        @click="changeToMwkETHSale"
-                                        class="
-                                          btn
-                                          text-white
-                                          btn-success btn-sm
-                                        "
-                                        >In MWK</a
-                                      >
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                      <a
-                                        @click="changeToETHSale"
-                                        class="
-                                          btn
-                                          text-white
-                                          btn-primary btn-sm
-                                        "
-                                        >In ETH</a
-                                      >
-                                    </div>
-                                  </div>
-                                </div>
-                                  <div v-if="eth_calc_status == 'mwk_eth'">
-                                    <div class="row mt-0">
-                                      <div class="col-md-6 mb-2">
-                                        <div class="input-group">
-                                          <div class="input-group-prepend">
-                                            <span class="input-group-text"
-                                              >MWK</span
-                                            >
-                                          </div>
-                                          <input
-                                            type="text"
-                                            class="form-control"
-                                            placeholder="0"
-                                            v-model="eth_mwk"
-                                          />
-                                        </div>
-                                      </div>
-                                      <div class="col-md-6 mb-2">
-                                        <div class="input-group">
-                                          <label class="text-dark pt-2"
-                                            >For: {{ ethConvSaleMWK }} ETH</label
-                                          >
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div v-if="eth_calc_status == 'eth'">
-                                    <div class="row mt-0">
-                                      <div class="col-md-6 pb-2">
-                                        <div class="input-group">
-                                          <div class="input-group-prepend">
-                                            <span class="input-group-text"
-                                              >ETH</span
-                                            >
-                                          </div>
-                                          <input
-                                            type="text"
-                                            class="form-control"
-                                            placeholder="0"
-                                            v-model="eth"
-                                          />
-                                        </div>
-                                      </div>
-                                      <div class="col-md-6 mb-2">
-                                        <div class="input-group">
-                                          <label class="text-dark pt-2"
-                                            >For: MWK {{ ethConvSale }}</label
-                                          >
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <br />
-                                </div>
-                                <!-- ETH Sale Fields End -->
-                                <!-- BCH Sale Fields Start -->
-                                <div v-if="currency == 'BCH'">
-                                    <div class="form-group">
-                                  <label class="mr-sm-2 mb-1"
-                                    >Enter your amount</label
-                                  >
-                                  <div class="row">
-                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                      <a
-                                        @click="changeToMwkBCHSale"
-                                        class="
-                                          btn
-                                          text-white
-                                          btn-success btn-sm
-                                        "
-                                        >In MWK</a
-                                      >
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                      <a
-                                        @click="changeToBCHSale"
-                                        class="
-                                          btn
-                                          text-white
-                                          btn-primary btn-sm
-                                        "
-                                        >In BCH</a
-                                      >
-                                    </div>
-                                  </div>
-                                </div>
-                                  <div v-if="bch_calc_status == 'mwk_bch'">
-                                    <div class="row mt-0">
-                                      <div class="col-md-6 mb-2">
-                                        <div class="input-group">
-                                          <div class="input-group-prepend">
-                                            <span class="input-group-text"
-                                              >MWK</span
-                                            >
-                                          </div>
-                                          <input
-                                            type="text"
-                                            class="form-control"
-                                            placeholder="0"
-                                            v-model="bch_mwk"
-                                          />
-                                        </div>
-                                      </div>
-                                      <div class="col-md-6 mb-2">
-                                        <div class="input-group">
-                                          <label class="text-dark pt-2"
-                                            >For: {{ bchConvSaleMWK }} BCH</label
-                                          >
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div v-if="bch_calc_status == 'bch'">
-                                    <div class="row mt-0">
-                                      <div class="col-md-6 pb-2">
-                                        <div class="input-group">
-                                          <div class="input-group-prepend">
-                                            <span class="input-group-text"
-                                              >BCH</span
-                                            >
-                                          </div>
-                                          <input
-                                            type="text"
-                                            class="form-control"
-                                            placeholder="0"
-                                            v-model="bch"
-                                          />
-                                        </div>
-                                      </div>
-                                      <div class="col-md-6 mb-2">
-                                        <div class="input-group">
-                                          <label class="text-dark pt-2"
-                                            >For: MWK {{ bchConvSale }}</label
-                                          >
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <br />
-                                </div>
-                                <!-- BCH Sale Fields End -->
-                                <a
-                                v-if="currency == 'BTC'"
-                                  
-                                  class="btn btn-warning text-white btn-block"
-                                  @click="saleBitcoin"
-                                  >Buy Now</a
-                                >
-                                 <a
-                                 v-if="currency == 'ETH'"
-                                  
-                                  class="btn btn-warning text-white btn-block"
-                                  @click="saleEthereum"
-                                  >Buy Now</a
-                                >
-                                 <a
-                                 v-if="currency == 'BCH'"
-                                  
-                                  class="btn btn-warning text-white btn-block"
-                                  @click="saleBitcoinCash"
-                                  >Sale Now</a
-                                >
-                             
-                            </ValidationObserver>
-                          </div>
-                        </b-tab>
-                      </b-tabs>
+                  <div class="row">
+              <div class="col-xl-8 col-lg-12 col-xxl-8">
+                <div class="card profile_chart transparent">
+                  <div class="card-header">
+                    <div class="chart_current_data">
+                      <h3>254856 <span>USD</span></h3>
+                      <p class="text-success">125648 <span>USD (20%)</span></p>
+                    </div>
+                    <div class="duration-option">
+                      <a
+                        id="all"
+                        class="c-pointer"
+                        @click="active = 'all'"
+                        :class="active === 'all' && 'active'"
+                        >ALL</a
+                      >
+                      <a
+                        id="one_month"
+                        class="c-pointer"
+                        @click="active = '1m'"
+                        :class="active === '1m' && 'active'"
+                        >1M</a
+                      >
+                      <a
+                        id="six_months"
+                        class="c-pointer"
+                        @click="active = '6m'"
+                        :class="active === '6m' && 'active'"
+                        >6M</a
+                      >
+                      <a
+                        id="one_year"
+                        class="c-pointer"
+                        @click="active = '1y'"
+                        :class="active === '1y' && 'active'"
+                        >1Y</a
+                      >
+                      <a
+                        id="ytd"
+                        class="c-pointer"
+                        @click="active = 'ytm'"
+                        :class="active === 'ytm' && 'active'"
+                        >YTD</a
+                      >
                     </div>
                   </div>
-                </div>
-                <p class="p-4"></p>
-              </div>
-              <div class="col-xl-6 col-lg-12 col-md-12">
-                <div class="card">
                   <div class="card-body">
-                    <div class="buyer-seller">
-                      <div class="table-responsive">
-                        <table class="table">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <span class="text-primary">{{
-                                  exchangeMsg
-                                }}</span>
-                              </td>
-                              <td
-                                v-if="
-                                  currency == 'BTC' && exchange_type == 'buy'
-                                "
-                              >
-                                <span class="text-primary"
-                                  >{{ btcConvBuyMWK }} {{ currency }} <br />
-                                  For {{ btc_mwk }} MWK
-                                </span>
-                              </td>
-                              <td
-                                v-if="
-                                  currency == 'ETH' && exchange_type == 'buy'
-                                "
-                              >
-                                <span class="text-primary"
-                                  >{{ eth }} {{ currency }} <br />
-                                  For {{ mwk_eth_buy }} MWK
-                                </span>
-                              </td>
-                              <td
-                                v-if="
-                                  currency == 'BCH' && exchange_type == 'buy'
-                                "
-                              >
-                                <span class="text-primary"
-                                  >{{ bch }} {{ currency }} <br />
-                                  For {{ mwk_bch_buy }} MWK
-                                </span>
-                              </td>
-
-                              <td
-                                v-if="
-                                  currency == 'BTC' && exchange_type == 'sale'
-                                "
-                              >
-                                <span class="text-primary"
-                                  >{{ btc2 }} {{ currency }} <br />
-                                  For {{ mwk_btc_sale }} MWK
-                                </span>
-                              </td>
-                              <td
-                                v-if="
-                                  currency == 'ETH' && exchange_type == 'sale'
-                                "
-                              >
-                                <span class="text-primary"
-                                  >{{ eth2 }} {{ currency }} <br />
-                                  For {{ mwk_eth_sale }} MWK
-                                </span>
-                              </td>
-                              <td
-                                v-if="
-                                  currency == 'BCH' && exchange_type == 'sale'
-                                "
-                              >
-                                <span class="text-primary"
-                                  >{{ bch2 }} {{ currency }} <br />
-                                  For {{ mwk_bch_sale }} MWK
-                                </span>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>Payment Method</td>
-                              <td>{{ method }}</td>
-                            </tr>
-                            <tr>
-                              <td>Exchange Rate</td>
-                              <td>0.00212455 BTC</td>
-                            </tr>
-                            <tr>
-                              <td>Fee</td>
-                              <td>$28.00 USD</td>
-                            </tr>
-                          </tbody>
-                        </table>
+                    <!-- <div id="timeline-chart"></div> -->
+                    <TimelineChart />
+                    <div class="chart-content text-center">
+                      <div class="row">
+                        <div class="col-xl-4 col-sm-6 col-6">
+                          <div class="chart-stat">
+                            <p class="mb-1">24hr Volume</p>
+                            <strong>$1236548.325</strong>
+                          </div>
+                        </div>
+                        <div class="col-xl-4 col-sm-6 col-6">
+                          <div class="chart-stat">
+                            <p class="mb-1">Market Cap</p>
+                            <strong>19B USD</strong>
+                          </div>
+                        </div>
+                        <div class="col-xl-4 col-sm-6 col-6">
+                          <div class="chart-stat">
+                            <p class="mb-1">Circulating</p>
+                            <strong>29.4M BTC</strong>
+                          </div>
+                        </div>
+                        <div class="col-xl-4 col-sm-6 col-6">
+                          <div class="chart-stat">
+                            <p class="mb-1">All Time High</p>
+                            <strong>19.783.06 USD</strong>
+                          </div>
+                        </div>
+                        <div class="col-xl-4 col-sm-6 col-6">
+                          <div class="chart-stat">
+                            <p class="mb-1">Typical hold</p>
+                            <strong>88 days</strong>
+                          </div>
+                        </div>
+                        <div class="col-xl-4 col-sm-6 col-6">
+                          <div class="chart-stat">
+                            <p class="mb-1">Trading activity</p>
+                            <strong>70% buy </strong>
+                          </div>
+                        </div>
+                        <!-- <div class="col-xl-4 col-sm-6 col-6">
+                                                    <div class="chart-stat">
+                                                        <p class="mb-1">Popularity </p>
+                                                        <strong>#1 most held </strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-4 col-sm-6 col-6">
+                                                    <div class="chart-stat">
+                                                        <p class="mb-1">Popularity </p>
+                                                        <strong>#1 most held </strong>
+                                                    </div>
+                                                </div> -->
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+
+              <div class="col-xl-4 col-lg-12 col-xxl-4">
+                <div class="card balance-widget transparent">
+                  <div class="card-body">
+                    <!-- <div id="wallet-chart"></div> -->
+                    <wallet-chart />
+                    <div class="balance-widget mt-5">
+                      <h4>Total Balance : <strong>$125480</strong></h4>
+                      <ul class="list-unstyled">
+                        <li class="media">
+                          <i class="cc BTC mr-3"></i>
+                          <div class="media-body">
+                            <h5 class="m-0">Bitcoin</h5>
+                          </div>
+                          <div class="text-right">
+                            <h5>0.000242 BTC</h5>
+                            <span>0.125 USD</span>
+                          </div>
+                        </li>
+                        <li class="media">
+                          <i class="cc LTC mr-3"></i>
+                          <div class="media-body">
+                            <h5 class="m-0">Litecoin</h5>
+                          </div>
+                          <div class="text-right">
+                            <h5>0.000242 LTC</h5>
+                            <span>0.125 USD</span>
+                          </div>
+                        </li>
+                        <li class="media">
+                          <i class="cc XRP mr-3"></i>
+                          <div class="media-body">
+                            <h5 class="m-0">Ripple</h5>
+                          </div>
+                          <div class="text-right">
+                            <h5>0.000242 XRP</h5>
+                            <span>0.125 USD</span>
+                          </div>
+                        </li>
+                        <li class="media">
+                          <i class="cc DASH mr-3"></i>
+                          <div class="media-body">
+                            <h5 class="m-0">Dash</h5>
+                          </div>
+                          <div class="text-right">
+                            <h5>0.000242 XRP</h5>
+                            <span>0.125 USD</span>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+         
             </div>
           </div>
         </div>
@@ -947,13 +296,17 @@
 <script>
 import Layout from "../../components/dashboard/Layout.vue";
 import Toster from "../../components/dashboard/Toster.vue";
-import { ValidationObserver, ValidationProvider } from "vee-validate";
+import TimelineChart from "../../components/dashboard/charts/TimelineChart.vue";
+import WalletChart from "../../components/dashboard/charts/WalletChart.vue";
+// import { ValidationObserver, ValidationProvider } from "vee-validate";
 export default {
   name: "Index",
   components: {
     Layout,
-    ValidationObserver,
-    ValidationProvider,
+    TimelineChart,
+    WalletChart,
+    // ValidationObserver,
+    // ValidationProvider,
     Toster,
   },
   data() {

@@ -9,18 +9,6 @@
                 <img src="https://khodo.africa/wp-content/uploads/2021/02/Asset-3@3x.png" alt="" width="30" />
               </router-link>
               <form action="#" @submit.prevent="">
-                <div class="input-group">
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Search"
-                  />
-                  <div class="input-group-append">
-                    <span class="input-group-text" id="basic-addon2"
-                      ><i class="fa fa-search"></i
-                    ></span>
-                  </div>
-                </div>
               </form>
             </div>
 
