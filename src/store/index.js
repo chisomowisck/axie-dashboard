@@ -12,12 +12,16 @@ export default new Vuex.Store({
     buyDetails: [],
     saleDetails: null,
     cryptoValue: null,
-    mwkAmount: null
+    mwkAmount: null,
+    signUpData: null
   },
   getters: {
     loggedIn(state){
         return state.token != null
     },
+    getsignUpDetails(state){
+      return state.signUpData
+  },
     getbuyDetails(state){
         return state.buyDetails
     },
@@ -54,6 +58,10 @@ export default new Vuex.Store({
     setMWKAmount(state, mwkAmount){
       state.mwkAmount = mwkAmount
     },
+
+    setSignUp(state, signUpData){
+      state.signUpData = signUpData
+    },
   },
   actions: {
 
@@ -68,6 +76,11 @@ export default new Vuex.Store({
     setCrypto(context, event){
       const cryptoValue = event
       context.commit('setCrypto', cryptoValue)
+    },
+
+    setSignUp(context, event){
+      const signUpData = event
+      context.commit('setSignUp', signUpData)
     },
     setMWKAmount(context, event){
       const mwkAmount = event
