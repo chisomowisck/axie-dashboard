@@ -41,6 +41,10 @@ import BankBuy from "../views/Buy/Bank";
 import AirtelMoneyBuy from "../views/Buy/AirtelMoney";
 import TnmMpambaBuy from "../views/Buy/Mpamba";
 import ThanksBuy from "../views/Buy/Thanks";
+import BuyAddress from "../views/Buy/CryptoAddress";
+import PaymentMethodBuy from "../views/Buy/PaymentMethod";  
+import SaleAddress from "../views/Sale/CryptoAddress";
+import PaymentMethodSale from "../views/Buy/PaymentMethod";  
 
 Vue.use(VueRouter);
 
@@ -64,6 +68,43 @@ const routes = [
     path: "/buy",
     name: "Buy",
     component: Buy,
+    meta: {
+      requiresAuth: true,
+  }
+  },
+
+  {
+    path: "/buy/address",
+    name: "BuyAddress",
+    component: BuyAddress,
+    meta: {
+      requiresAuth: true,
+  }
+  },
+
+  
+  {
+    path: "/sale/address",
+    name: "SaleAddress",
+    component: SaleAddress,
+    meta: {
+      requiresAuth: true,
+  }
+  },
+
+  {
+    path: "/buy/payment-method",
+    name: "PaymentMethodBuy",
+    component: PaymentMethodBuy,
+    meta: {
+      requiresAuth: true,
+  }
+  },
+
+  {
+    path: "/sale/payment-method",
+    name: "PaymentMethodSale",
+    component: PaymentMethodSale,
     meta: {
       requiresAuth: true,
   }

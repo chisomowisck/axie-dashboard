@@ -69,6 +69,36 @@
                                 }}</label>
                               </div>
                             </ValidationProvider>
+
+                            <ValidationProvider
+                              rules="required"
+                              v-slot="{ errors }"
+                              name="method"
+                              class="form-group"
+                            >
+                              <label class="mr-sm-2">Payment Method</label>
+                              <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <label class="input-group-text"
+                                    ><i class="fa fa-bank"></i
+                                  ></label>
+                                </div>
+                                <select
+                                  class="form-control"
+                                  v-model="method"
+                                  name="method"
+                                >
+                                  <option value="">Select</option>
+                                  <option value="Airtel Money">Airtel Money</option>
+                                  <option value="Mpamba">Mpamba</option>
+                                  <option value="Bank">Bank</option>
+                                </select>
+                                <label class="error" for="method">{{
+                                  errors[0]
+                                }}</label>
+                              </div>
+                            </ValidationProvider>
+
                            <!-- BTC Buy Fields Start -->
                             <div v-if="currency == 'BTC'">
                                   <div class="form-group">
@@ -463,7 +493,15 @@ export default {
           cryptoValueMWK: this.eth_mwk,
         });
       }
-        this.$router.push("/sale/address");
+      if (this.method == "Airtel Money") {
+        this.$router.push("/sale/airtel-money");
+      }
+      if (this.method == "Mpamba") {
+        this.$router.push("/sale/tnm-mpamba");
+      }
+      if (this.method == "Bank") {
+        this.$router.push("/sale/bank");
+      }
       },
       //BTC Sale Function Convention
     changeToBTCSale() {

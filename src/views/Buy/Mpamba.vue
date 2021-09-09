@@ -9,100 +9,42 @@
                 <h4 class="card-title">TNM Mpamba</h4>
               </div>
               <div class="card-body">
-                <div class="row">
-                  <div class="col-md-8">
-                    <div class="row">
-                      <div class="col-md-6">
-                        <span>Buying</span>
-                        <h3>
-                          {{ cryptoValue }}
-                          {{ currency }}
-                        </h3>
-                      </div>
-                      <div class="col-md-6">
-                        <span>For</span>
-                        <h3>MWK {{ mwkAmount }}</h3>
-                      </div>
+                <div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <span>Airtel Agent Code</span>
+                      <input
+                        type="text"
+                        class="form-control"
+                        value="LL2045"
+                        placeholder="LL2045"
+                        v-model="bitcoinAddress"
+                      />
                     </div>
-                    <br />
-                    <div class="row">
-                      <div class="col-md-6" v-if="currency == 'BTC'">
-                        <span>Bitcoin Address</span>
-                        <input
-                          type="text"
-                          class="form-control"
-                          placeholder="Enter your Bitcoin Address"
-                          v-model="bitcoinAddress"
-                        />
-                      </div>
-                      <div class="col-md-6" v-if="currency == 'ETH'">
-                        <span>Ethereum Address</span>
-                        <input
-                          type="text"
-                          class="form-control"
-                          placeholder="Enter your Ethereum Address"
-                          v-model="ethereumAddress"
-                        />
-                      </div>
-                      <div class="col-md-6" v-if="currency == 'BCH'">
-                        <span>Bitcoin cash Address</span>
-                        <input
-                          type="text"
-                          class="form-control"
-                          placeholder="Enter your Bitcoin Cash Address"
-                          v-model="ethereumAddress"
-                        />
-                      </div>
-                      <div class="col-md-6">
-                        <span>Reference</span>
-                        <h3>{{ ref }}</h3>
-                      </div>
+
+                    <div class="col-md-4">
+                      <span>Buying</span>
+                      <h3>
+                        {{ cryptoValue }}
+                        {{ currency }}
+                      </h3>
+                    </div>
+                    <div class="col-md-4">
+                      <span>For</span>
+                      <h3>MWK {{ mwkAmount }}</h3>
                     </div>
                   </div>
-                  <div class="col-md-4">
-                    <div class="form-group col-xl-12">
-                      <span>Proof of Payment</span>
-                      <div
-                        class="file-upload-wrapper"
-                        v-bind:data-text="
-                          !filevalue ? 'Upload Proof' : filevalue
-                        "
-                      >
-                        <input
-                          name="fileValue"
-                          type="file"
-                          class="file-upload-field"
-                          accept="image/*"
-                          @change="handleFileUpload"
-                        />
-                      </div>
-                    </div>
-                    <div class="card">
-                      <img class="card-img" v-bind:src="proof" />
+                  <div class="row">
+                    <div class="col-md-4">
+                      <span>Reference</span>
+                      <h3>{{ ref }}</h3>
                     </div>
                   </div>
+                  <br />
                 </div>
 
                 <div class="btn">
-                  <button
-                    v-on:click="buyBTC"
-                    class="btn btn-success"
-                    v-if="currency == 'BTC'"
-                  >
-                    Continue
-                  </button>
-                  <button
-                    v-on:click="buyETH"
-                    class="btn btn-success"
-                    v-if="currency == 'ETH'"
-                  >
-                    Continue
-                  </button>
-                  <button
-                    v-on:click="buyBCH"
-                    class="btn btn-success"
-                    v-if="currency == 'BCH'"
-                  >
+                  <button v-b-modal.modal-1 class="btn btn-success">
                     Continue
                   </button>
                 </div>
@@ -112,6 +54,26 @@
         </div>
       </div>
     </div>
+    <b-modal modal-dialog-centered id="modal-1" title="Proof of Payment">
+      <div class="form-group col-xl-12">
+        <span>Proof of Payment</span>
+        <div
+          class="file-upload-wrapper"
+          v-bind:data-text="!filevalue ? 'Upload Proof' : filevalue"
+        >
+          <input
+            name="fileValue"
+            type="file"
+            class="file-upload-field"
+            accept="image/*"
+            @change="handleFileUpload"
+          />
+        </div>
+      </div>
+      <div class="card">
+        <img class="card-img" v-bind:src="proof" />
+      </div>
+    </b-modal>
   </layout>
 </template>
 
@@ -143,6 +105,7 @@ export default {
       bitcoinCashAddress: null,
       proof: "",
       image: "",
+      address:localStorage.getItem("buy_address")
     };
   },
 
