@@ -103,7 +103,7 @@ export default {
         .catch((error) => {
           this.loading = false;
           this.verifyStatus2 = true;
-          this.verifyMsg2 = "OTP is wrong";
+          this.verifyMsg2 = "Invalid OTP";
           console.log(error);
         });
     },
