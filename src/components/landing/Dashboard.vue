@@ -23,7 +23,7 @@
                     <td class="pt-2">
                        {{scholar.scholar_name}}
                     </td>
-                    <td class="pt-3">{{scholar.mmr}}</td>
+                    <td class="pt-3 text-success">{{scholar.mmr}}</td>
                     <td class="pt-3">{{scholar.total_slp}}</td>
                     <td class="pt-3" style="color: #007d23">Claimable in {{scholar.remaining_days}} day(s)</td>
                 </tr>
