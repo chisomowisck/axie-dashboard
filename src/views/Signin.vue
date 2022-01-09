@@ -11,7 +11,7 @@
                 style="height: 90px; width: auto"
             /></router-link>
           </div> -->
-          <div class="auth-form card">
+          <div class="auth-form card my-4" style="margin-top: 200px !important" >
             <div class="card-header justify-content-center">
               <h4 class="card-title">Sign in</h4>
             </div>

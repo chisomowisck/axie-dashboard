@@ -3,12 +3,8 @@
     <div class="container h-100">
       <div class="row justify-content-center h-100 align-items-center">
         <div class="col-xl-5 col-md-6">
-          <div class="mini-logo text-center my-4">
-            <router-link to="landing"
-              ><img src="" alt="" style="height: 90px; width: auto"
-            /></router-link>
-          </div>
-          <div class="auth-form card">
+     
+          <div class="auth-form card my-4" style="margin-top: 200px !important">
             <div class="card-header justify-content-center">
               <h4 class="card-title">Sign up your account</h4>
             </div>
