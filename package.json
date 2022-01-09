@@ -28,8 +28,8 @@
     "vuejs-datepicker": "^1.6.2",
     "vuex": "^3.6.2"
   },
-  "optionalDependencies": {
-    "fsevents": "2.1.2"
+  "engines": {
+    "node": "16.x"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
