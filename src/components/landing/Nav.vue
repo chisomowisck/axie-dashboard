@@ -1,5 +1,5 @@
 <template>
-  <div class="header landing_page">
+  <div class="header landing_page" style="background: #06132b">
     <div class="container">
       <div class="row">
         <div class="col-xl-12 position-relative">
@@ -7,10 +7,13 @@
             class="navbar navbar-expand-lg navbar-light px-0"
             data-target="#navbar-example2"
           >
-            <router-link class="navbar-brand" to="landing">
-              <img src="https://khodo.africa/wp-content/uploads/2021/02/Asset-3@3x.png" alt="" />
-              <span style="color: #5052D9">Khodo </span></router-link
-            >
+            <router-link class="navbar-brand" to="/">
+              <img
+                src="https://cryptouniversity.network/wp-content/uploads/2020/10/Asset-6.png"
+                alt=""
+              />
+              <span style="color: #8691b4">Axie Dashboard </span>
+            </router-link>
             <b-navbar-toggle target="nav-collapse"> </b-navbar-toggle>
 
             <b-collapse as="div" id="nav-collapse" is-nav>
@@ -70,14 +73,19 @@
             <div class="dashboard_log">
               <div class="d-flex align-items-center">
                 <div class="header_auth">
-                  <router-link v-if="access_token == null" to="/signin" style="background-color: #5052D9" class="btn btn-primary"
+                  <router-link
+                    v-if="access_token == null"
+                    to="/signin"
+                   
+                    class="btn btn-info"
                     >Sign In</router-link
                   >
-                  <router-link v-if="access_token != null" to="/index" style="background-color: #5052D9" class="btn btn-primary"
+                  <router-link
+                    v-if="access_token != null"
+                    to="/index"
+                    style="background-color: #5052d9"
+                    class="btn btn-primary"
                     >Dashboard</router-link
-                  >
-                  <router-link v-if="access_token == null" to="/signup" style="color: #5052D9" class="btn btn-outline-primary"
-                    >Sign Up</router-link
                   >
                 </div>
               </div>
@@ -99,3 +107,19 @@ export default {
   },
 };
 </script>
+
+<style>
+img {
+    width: 85px !important;
+}
+.navbar-brand img {
+    max-width: 200px !important;
+}
+.nav-link {
+  color: #8691b4 !important;
+}
+
+.nav-link.active {
+  color: white !important;
+}
+</style>

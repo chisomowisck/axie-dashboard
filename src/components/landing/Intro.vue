@@ -3,7 +3,6 @@
     class="intro section-padding position-relative"
     id="intro"
     data-scroll-index="0"
-    
   >
   <section >
     <div class="container" >
@@ -19,11 +18,9 @@
               <a href="#" class="btn my-1 waves-effect">
                 <img src="../../assets/images/android.svg" alt="" />
               </a>
-
                 <a href="#" class="btn btn-primary my-1 waves-effect">
                 Calculator
               </a>
-             
             </div>
           </div>
         </div>
@@ -45,4 +42,5 @@
 export default {
   name: "Intro"
 };
+
 </script>

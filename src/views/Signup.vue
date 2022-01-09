@@ -31,49 +31,7 @@
                   required
                 />
               </div>
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label>City</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      v-model="city"
-                      required
-                    />
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label>Mobile</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      v-model="mobile"
-                      required
-                    />
-                  </div>
-                </div>
-              </div>
-               <b-alert
-                variant="danger"
-                dismissible
-                fade
-                :show="verifyStatus == false"
-                @dismissed="verifyStatus = null"
-              >
-                {{ verifyMsg }}
-              </b-alert>
-
-              <b-alert
-                variant="success"
-                dismissible
-                fade
-                :show="verifyStatus == true"
-                @dismissed="verifyStatus = null"
-              >
-                {{ verifyMsg }}
-              </b-alert>
+       
               <div class="form-group">
                 <label>Email</label>
                 <input
@@ -83,18 +41,7 @@
                   required
                 />
               </div>
-             
-
-              <br />
-                <div class="form-group">
-                <label>4-Digit PIN</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  v-model="pin"
-                  required
-                />
-              </div>
+                    
               <div class="form-group">
                 <label>Password</label>
                 <input
@@ -105,7 +52,7 @@
                 />
               </div>
               <div class="text-center mt-4">
-                <button class="bt btn-primary btn-block" @click="verifyEmail">
+                <button class="bt btn-primary btn-block" @click="signUp()">
                   <template v-if="loading">
                     <b-spinner class="mr-2"></b-spinner>
                     Verifying Email Address...
@@ -126,31 +73,6 @@
           </div>
         </div>
       </div>
-      <b-modal
-        id="modal-prevent-closing"
-        ref="modal"
-        title="Create A 4-Digit PIN"
-        @show="resetModal"
-        @hidden="resetModal"
-        @ok="handleOk"
-      >
-        <form ref="form" @submit.stop.prevent="handleSubmit">
-          <b-form-group
-            label="PIN"
-            label-for="name-input"
-            invalid-feedback="PIN is required"
-            :state="nameState"
-          >
-            <b-form-input
-              type="number"
-              id="name-input"
-              v-model="pin"
-              :state="nameState"
-              required
-            ></b-form-input>
-          </b-form-group>
-        </form>
-      </b-modal>
     </div>
   </div>
 </template>
@@ -162,12 +84,7 @@ export default {
     return {
       fullName: null,
       email: null,
-      mobile: null,
-      country: "Malawi",
-      city: null,
       password: null,
-      pin: null,
-      otp: null,
       verifyStatus: null,
       verifyStatus2: false,
       verifyMsg: null,
@@ -178,98 +95,17 @@ export default {
     };
   },
   methods: {
+
     signUp() {
-      this.$store.dispatch("setSignUp", {
-        fullName: this.fullName,
-        email: this.email,
-        mobile: this.mobile,
-        country: this.country,
-        city: this.city,
-        password: this.password,
-        pin: this.pin,
-      });
-
-      this.$router.push("/otp-2");
-
-      // this.$store.dispatch("setSignUp", {
-      //     fullName: this.fullName,
-      //     email: this.email,
-      //     mobile: this.mobile,
-      //     country: this.country,
-      //     city: this.city,
-      //     password: this.password,
-      //     pin: this.pin,
-      //     // otp: this.otp,
-      //   })
-    },
-    verifyEmail() {
-      this.$store.dispatch("setSignUp", {
-        fullName: this.fullName,
-        email: this.email,
-        mobile: this.mobile,
-        country: this.country,
-        city: this.city,
-        password: this.password,
-        pin: this.pin,
-      });
-      this.loading = true;
-      this.$axios
-        .post("/auth/user/verify-email", {
-          email: this.email,
-        })
-        .then(
-          function (response) {
-            this.verifyStatus = response.data.success;
-            this.verifyMsg = response.data.message;
-            this.loading = false;
-            this.$router.push("/otp-2");
-            // console.log(response);
-          }.bind(this)
-        )
-        .catch((error) => {
-          this.verifyStatus = false;
-          this.verifyMsg = "Invalid Email or User Already Exists";
-          this.loading = false;
-          console.log(error);
-        });
-    },
-
-    checkFormValidity() {
-      const valid = this.$refs.form.checkValidity();
-      this.nameState = valid;
-      return valid;
-    },
-    resetModal() {
-      this.name = "";
-      this.nameState = null;
-    },
-    handleOk(bvModalEvt) {
-      this.verifyStatus2 = false;
-      // Prevent modal from closing
-      bvModalEvt.preventDefault();
-      // Trigger submit handler
-      this.handleSubmit();
-    },
-    handleSubmit() {
-      // Exit when the form isn't valid
-      if (!this.checkFormValidity()) {
-        return;
-      }
-      // Push the name to submitted names
-
       this.$store
         .dispatch("registerUser", {
-          fullName: this.fullName,
-          email: this.email,
-          mobile: this.mobile,
-          country: this.country,
-          city: this.city,
-          password: this.password,
-          pin: this.pin,
-          otp: this.otp,
+           username: this.fullName,
+        email: this.email,
+        password: this.password,
+        roles : ["moderator", "user"]
         })
         .then((response) => {
-          this.$router.push("/index");
+          this.$router.push("/signin");
           console.log(response);
         })
         .catch((error) => {

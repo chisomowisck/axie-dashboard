@@ -3,14 +3,14 @@
     <div class="container h-100">
       <div class="row justify-content-center h-100 align-items-center">
         <div class="col-xl-5 col-md-6">
-          <div class="mini-logo text-center my-4">
+          <!-- <div class="mini-logo text-center my-4">
             <router-link to="landing"
               ><img
                 src="https://khodo.africa/wp-content/uploads/2021/02/Asset-3@3x.png"
                 alt=""
                 style="height: 90px; width: auto"
             /></router-link>
-          </div>
+          </div> -->
           <div class="auth-form card">
             <div class="card-header justify-content-center">
               <h4 class="card-title">Sign in</h4>
@@ -35,9 +35,9 @@
                 >
                   <label>Email</label>
                   <input
-                    type="email"
+                    type="text"  
                     class="form-control error"
-                    v-model="mobileOrEmail"
+                    v-model="username"
                     aria-invalid="true"
                   />
                   <label class="error" for="email">{{ errors[0] }}</label>
@@ -73,7 +73,7 @@
                 </div>
                 <div class="text-center">
                   <button
-                    v-b-modal.modal-prevent-closing
+                    v-on:click = "signingIn"
                     class="bt btn-primary btn-block"
                   >
                     Sign in
@@ -93,32 +93,6 @@
         </div>
       </div>
     </div>
-
-    <b-modal
-      id="modal-prevent-closing"
-      ref="modal"
-      title="Input your 4-Digit PIN"
-      @show="resetModal"
-      @hidden="resetModal"
-      @ok="handleOk"
-    >
-      <form ref="form" @submit.stop.prevent="handleSubmit">
-        <b-form-group
-          label="PIN"
-          label-for="name-input"
-          invalid-feedback="PIN is required"
-          :state="nameState"
-        >
-          <b-form-input
-            id="name-input"
-            type="number"
-            v-model="pin"
-            :state="nameState"
-            required
-          ></b-form-input>
-        </b-form-group>
-      </form>
-    </b-modal>
   </div>
 </template>
 
@@ -133,78 +107,31 @@ export default {
   },
   data() {
     return {
-      mobileOrEmail: null,
+      username: null,
       password: null,
-      pin: null,
       name: "",
       nameState: null,
-      submittedNames: [],
       verifyStatus: null,
     verifyMsg: null,
     showDismissibleAlert: true,
     };
   },
   methods: {
-    signingIn() {},
-
-    formSubmit() {
-      this.internet = false;
-      this.dialog = true;
+    signingIn() {
       this.$store
         .dispatch("retrieveToken", {
-          mobileOrEmail: this.mobileOrEmail,
+          username: this.username,
           password: this.password,
-          pin: this.pin,
         })
         .then((response) => {
           this.$router.push("/index");
           console.log(response);
         })
         .catch((error) => {
-          console.log(error);
-        });
-    },
-    checkFormValidity() {
-      const valid = this.$refs.form.checkValidity();
-      this.nameState = valid;
-      return valid;
-    },
-    resetModal() {
-      this.name = "";
-      this.nameState = null;
-    },
-    handleOk(bvModalEvt) {
-      // Prevent modal from closing
-      bvModalEvt.preventDefault();
-      // Trigger submit handler
-      this.handleSubmit();
-    },
-    handleSubmit() {
-      // Exit when the form isn't valid
-      if (!this.checkFormValidity()) {
-        return;
-      }
-      // Push the name to submitted names
-      this.$store
-        .dispatch("retrieveToken", {
-          mobileOrEmail: this.mobileOrEmail,
-          password: this.password,
-          pin: this.pin,
-        })
-        .then((response) => {
-          this.$router.push("/index");
-          console.log(response);
-        })
-        .catch((error) => {
-           this.verifyStatus = false;
             this.verifyMsg = "Unable to Login, either Email, Password or PIN is incorect";
             console.log(error);
         });
-      // Hide the modal manually
-      this.$nextTick(() => {
-        this.$bvModal.hide("modal-prevent-closing");
-      });
-    },
+    }
   },
 };
 </script>
