@@ -6,7 +6,6 @@ import App from "./App.vue";
 import "./assets/css/custome.css";
 import "./assets/css/popup.css";
 import "./assets/css/style.css";
-import "./components/validation/errorMessage";
 import router from "./router";
 import axios from 'axios'
 import VueAxios from 'vue-axios'

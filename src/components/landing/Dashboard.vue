@@ -13,7 +13,7 @@
                     <th scope="col">Nick Name</th>
                     <th scope="col">MMR</th>
                     <th scope="col">Total (SLP)</th>
-                    <th scope="col">Next Claim</th>
+                    <th scope="col">Claimable</th>
                 </tr>
             </thead>
             <tbody>
@@ -25,7 +25,7 @@
                     </td>
                     <td class="pt-3 text-success">{{scholar.mmr}}</td>
                     <td class="pt-3">{{scholar.total_slp}}</td>
-                    <td class="pt-3" style="color: #007d23">Claimable in {{scholar.remaining_days}} day(s)</td>
+                    <td class="pt-3" style="color: #007d23">In {{scholar.remaining_days}} day(s)</td>
                 </tr>
        
             </tbody>
